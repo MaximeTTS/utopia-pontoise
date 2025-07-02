@@ -1,4 +1,4 @@
-// Logique de scraping pour le cinéma Utopia Pontoise
+// backend/src/fetchScrape.ts
 
 import axios from "axios";
 import * as cheerio from "cheerio";
@@ -9,60 +9,80 @@ export interface Movie {
   pubDate: string;
   link: string;
 }
-
 export interface MovieDetails extends Movie {
   image: string | null;
   trailer: string | null;
 }
 
-const BASE_URL = "https://www.cinemas-utopia.org/saintouen/index.php?mode=prochains";
-const HEADERS = { "User-Agent": "Mozilla/5.0", "Accept-Language": "fr" };
+const WEEK_URL = "https://www.cinemas-utopia.org/saintouen/index.php?mode=prochains";
+const HEADERS = {
+  "User-Agent": "Mozilla/5.0",
+  "Accept-Language": "fr",
+};
 
-// Récupère et analyse la liste des films de la semaine
-
+/**
+ * Scrape la liste des films programmés pour la semaine
+ * en ciblant la section sous le titre "LES FILMS PROGRAMMÉS".
+ */
 export async function getWeekMovies(): Promise<Movie[]> {
-  const { data } = await axios.get(BASE_URL, { headers: HEADERS });
-  const $ = cheerio.load(data);
+  // Charger la page HTML
+  const { data: html } = await axios.get(WEEK_URL, { headers: HEADERS });
+  const $ = cheerio.load(html);
 
-  // Parcours chaque élément de la liste et construit l'objet Movie
-  return $("#centre ul li")
-    .map((_, el) => {
-      const e = $(el);
-      let href = e.find("h3 a").attr("href") || "";
-      if (!href.includes("mode=film")) href += (href.includes("?") ? "&" : "?") + "mode=film";
-      return {
-        title: e.find("h3 a").text().trim(),
-        description: e.find("p").text().trim(),
-        pubDate: new Date().toISOString(),
-        link: new URL(href, BASE_URL).toString(),
-      };
-    })
-    .get()
-    .filter((m) => m.title);
+  // Trouver l'en-tête h4 avec texte exact
+  const header = $("h4")
+    .filter((_, el) => $(el).text().trim().toUpperCase().startsWith("LES FILMS PROGRAMMÉS"))
+    .first();
+  if (!header.length) {
+    console.error('⚠️ Section "LES FILMS PROGRAMMÉS" introuvable');
+    return [];
+  }
+
+  // La liste se situe dans la première <ul> qui suit ce header
+  const list = header.nextAll("ul").first();
+  if (!list.length) {
+    console.error("⚠️ Liste des films introuvable après le header");
+    return [];
+  }
+
+  // Parcourir chaque lien dans la liste
+  const movies: Movie[] = [];
+  list.find("li a").each((_, el) => {
+    const a = $(el);
+    const title = a.text().trim();
+    if (!title) return;
+
+    // Construire URL vers la fiche film
+    let href = a.attr("href") || "";
+    if (!href.includes("mode=film")) {
+      href += (href.includes("?") ? "&" : "?") + "mode=film";
+    }
+    const link = new URL(href, WEEK_URL).toString();
+
+    movies.push({ title, description: "", pubDate: new Date().toISOString(), link });
+  });
+
+  return movies;
 }
 
-// Récupère et analyse les détails d'un film à partir de son URL
-
+/**
+ * Scrape la fiche détaillée d'un film via son URL Utopia.
+ */
 export async function getMovieDetails(url: string): Promise<MovieDetails> {
-  // Assure que l'URL cible la page détail
-  const detailUrl = url.includes("mode=film") ? url : url + (url.includes("?") ? "&" : "?") + "mode=film";
-  const requestUrl = detailUrl + "&t=" + Date.now(); // force un appel frais
-
-  const { data } = await axios.get(requestUrl, { headers: HEADERS });
+  // S'assurer du mode film
+  const detailUrl = url.includes("mode=film") ? url : `${url}${url.includes("?") ? "&" : "?"}mode=film`;
+  const { data } = await axios.get(detailUrl, { headers: HEADERS });
   const $ = cheerio.load(data);
 
-  // Titre du film
   const title = $("div#centre div#film h1").text().trim();
-  // Synopsis détaillé
-  const description = $("div#centre div#film p.texte").text().trim();
-  // Affiche du film
-  const imgSrc = $("div#centre div#film img.imgfilm").attr("src") || null;
+  const description = $("div#centre div#film p.texte").html()?.trim() || "";
+
+  const imgSrc = $("div#centre div#film img.imgfilm").attr("src");
   const image = imgSrc ? new URL(imgSrc, detailUrl).toString() : null;
 
-  // URL de la bande-annonce ou vidéo intégrée
-  let trailerSrc =
+  const videoSrc =
     $("div#centre div#film video source").attr("src") || $("div#centre div#film iframe").attr("src") || null;
-  const trailer = trailerSrc ? new URL(trailerSrc, detailUrl).toString() : null;
+  const trailer = videoSrc ? new URL(videoSrc, detailUrl).toString() : null;
 
   return { title, description, pubDate: new Date().toISOString(), link: detailUrl, image, trailer };
 }

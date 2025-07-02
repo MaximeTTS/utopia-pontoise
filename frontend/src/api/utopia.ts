@@ -11,9 +11,9 @@ export interface MovieDetails extends Movie {
   trailer: string | null;
 }
 
-const BASE = "http://localhost:3000";
+// Ne plus définir BASE ici, on passe par proxy CRA
 
-export const fetchWeekMovies = () => axios.get<Movie[]>(`${BASE}/api/semaine`).then((r) => r.data);
+export const fetchWeekMovies = () => axios.get<Movie[]>("/api/semaine").then((r) => r.data);
 
 export const fetchMovieDetails = (url: string) =>
-  axios.get<MovieDetails>(`${BASE}/api/film?url=${encodeURIComponent(url)}`).then((r) => r.data);
+  axios.get<MovieDetails>(`/api/film?url=${encodeURIComponent(url)}`).then((r) => r.data);
