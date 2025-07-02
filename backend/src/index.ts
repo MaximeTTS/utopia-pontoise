@@ -2,6 +2,7 @@
 
 import express from "express";
 import { getWeekMovies, getMovieDetails } from "./fetchScrape";
+import { getWeeklySchedule } from "./fetchSchedule";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,6 +31,21 @@ app.get("/api/film", async (req, res) => {
   } catch (err) {
     console.error("Erreur sur /api/film :", err);
   }
+});
+
+// horaires PDF de la semaine
+app.get("/api/horaires", (req, res) => {
+  getWeeklySchedule()
+    .then((schedule) => {
+      if (!schedule) {
+        return res.status(404).json({ error: "Section horaires introuvable" });
+      }
+      res.json(schedule);
+    })
+    .catch((err) => {
+      console.error("Erreur sur /api/horaires :", err);
+      res.status(500).json({ error: "Impossible de récupérer les horaires de la semaine." });
+    });
 });
 
 // Démarrage du serveur
