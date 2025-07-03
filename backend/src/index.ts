@@ -3,6 +3,7 @@
 import express from "express";
 import { getWeekMovies, getMovieDetails } from "./fetchScrape";
 import { getWeeklySchedule } from "./fetchSchedule";
+import { getDailySchedule } from "./fetchDailySchedule";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -45,6 +46,21 @@ app.get("/api/horaires", (req, res) => {
     .catch((err) => {
       console.error("Erreur sur /api/horaires :", err);
       res.status(500).json({ error: "Impossible de récupérer les horaires de la semaine." });
+    });
+});
+
+// Route pour le programme PDF/JPG du jour
+app.get("/api/horaires/aujourdhui", (_req, res) => {
+  getDailySchedule()
+    .then((meta) => {
+      if (!meta) {
+        return res.status(404).json({ error: "Programme du jour introuvable." });
+      }
+      res.json(meta);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: "Scraping KO." });
     });
 });
 
