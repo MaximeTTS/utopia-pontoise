@@ -1,13 +1,26 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { motion } from "framer-motion";
+import Lenis from "lenis";
 import { opacity, expand } from "./anim";
+import Footer from "../components/Footer";
 
 interface LayoutProps {
   children: ReactNode;
   backgroundColor?: string;
 }
 
-export default function Layout({ children, backgroundColor = "#FFFF" }: LayoutProps) {
+// Initialise Lenis pour smooth scrolling sur tout le site
+export default function Layout({ children, backgroundColor = "transparent" }: LayoutProps) {
+  useEffect(() => {
+    const lenis = new Lenis();
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+    return () => lenis.destroy();
+  }, []);
+
   const anim = (variants: any, custom: number | null = null) => ({
     initial: "initial",
     animate: "enter",
@@ -26,6 +39,7 @@ export default function Layout({ children, backgroundColor = "#FFFF" }: LayoutPr
         ))}
       </div>
       {children}
+      <Footer />
     </div>
   );
 }
