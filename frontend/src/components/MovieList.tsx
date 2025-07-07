@@ -1,28 +1,25 @@
+// frontend/src/components/MovieList.tsx
 import React, { useEffect, useState } from "react";
-import { fetchWeekMovies, Movie } from "../api/utopia";
-import { Link } from "react-router-dom";
+import { fetchWeekMovies, fetchMovieDetails, MovieDetails } from "../api/utopia";
+import MovieCard from "./MovieCard";
 
 export default function MovieList() {
-  const [movies, setMovies] = useState<Movie[]>([]);
-
+  const [movies, setMovies] = useState<MovieDetails[]>([]);
   useEffect(() => {
     fetchWeekMovies()
+      .then((list) => Promise.all(list.map((m) => fetchMovieDetails(m.link))))
       .then(setMovies)
-      .catch((err) => console.error("Erreur chargement liste:", err));
+      .catch(console.error);
   }, []);
 
   return (
-    <ul className="space-y-4">
-      {movies.map((movie) => (
-        <li key={movie.link} className="border rounded p-4 hover:shadow">
-          <h3 className="text-xl font-semibold">{movie.title}</h3>
-          <p className="text-gray-600 text-sm">{movie.pubDate}</p>
-          <p className="text-gray-800 truncate">{movie.description}</p>
-          <Link to={`/film?url=${encodeURIComponent(movie.link)}`} className="text-blue-500 hover:underline mt-2 block">
-            Voir détails
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <div className="">
+      <h2 className="text-xl font-bold mb-4">Films de la semaine</h2>
+      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2.5">
+        {movies.map((m) => (
+          <MovieCard key={m.link} title={m.title} link={m.link} image={m.image} />
+        ))}
+      </div>
+    </div>
   );
 }

@@ -5,11 +5,10 @@ import * as cheerio from "cheerio";
 
 export interface Movie {
   title: string;
-  description: string;
-  pubDate: string;
   link: string;
 }
 export interface MovieDetails extends Movie {
+  description: string;
   image: string | null;
   trailer: string | null;
 }
@@ -59,7 +58,7 @@ export async function getWeekMovies(): Promise<Movie[]> {
     }
     const link = new URL(href, WEEK_URL).toString();
 
-    movies.push({ title, description: "", pubDate: new Date().toISOString(), link });
+    movies.push({ title, link });
   });
 
   return movies;
@@ -84,5 +83,5 @@ export async function getMovieDetails(url: string): Promise<MovieDetails> {
     $("div#centre div#film video source").attr("src") || $("div#centre div#film iframe").attr("src") || null;
   const trailer = videoSrc ? new URL(videoSrc, detailUrl).toString() : null;
 
-  return { title, description, pubDate: new Date().toISOString(), link: detailUrl, image, trailer };
+  return { title, link: detailUrl, description, image, trailer };
 }

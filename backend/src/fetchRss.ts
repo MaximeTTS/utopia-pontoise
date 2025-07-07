@@ -1,8 +1,6 @@
 // Définitions des interfaces pour la structure des données
 export interface Movie {
   title: string;
-  description: string;
-  pubDate: string;
   link: string;
 }
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { fetchDailySchedule, DailySchedule } from "../api/utopia";
-// ↑ on va chercher à la racine ou au bon chemin selon votre projet
 
 export default function DailyScheduleView() {
   const [sched, setSched] = useState<DailySchedule | null>(null);

@@ -1,11 +1,11 @@
 import axios from "axios";
+import { fetchWithCache } from "../utils/cacheHelper";
 export interface Movie {
   title: string;
-  description: string;
-  pubDate: string;
   link: string;
 }
 export interface MovieDetails extends Movie {
+  description: string;
   image: string | null;
   trailer: string | null;
 }
@@ -18,22 +18,28 @@ export interface DailySchedule {
   resourceType: "pdf" | "image";
 }
 
-const BASE = ""; // proxy CRA → renvoie vers http://localhost:3000
+const BASE = ""; // proxy CRA → http://localhost:3000
 
+// Liste des films de la semaine
 export function fetchWeekMovies() {
-  return axios.get<Movie[]>("/api/semaine").then((r) => r.data);
+  return fetchWithCache("weekMovies", () => axios.get<Movie[]>("/api/semaine").then((r) => r.data));
 }
 
+// Détails d'un film
 export function fetchMovieDetails(url: string) {
-  return axios.get<MovieDetails>(`/api/film?url=${encodeURIComponent(url)}`).then((r) => r.data);
+  return fetchWithCache(`movieDetails:${url}`, () =>
+    axios.get<MovieDetails>(`${BASE}/api/film?url=${encodeURIComponent(url)}`).then((r) => r.data)
+  );
 }
 
-// récupère le label et l'URL du PDF horaires
+// Horaire hebdo
 export function fetchWeeklySchedule() {
-  return axios.get<WeeklySchedule>("/api/horaires").then((r) => r.data);
+  return fetchWithCache("weeklySchedule", () => axios.get<WeeklySchedule>("/api/horaires").then((r) => r.data));
 }
 
-// récupère le pdf et l'URL du PDF horaires
+// Horaire du jour
 export function fetchDailySchedule() {
-  return axios.get<DailySchedule>(`${BASE}/api/horaires/aujourdhui`).then((response) => response.data);
+  return fetchWithCache("dailySchedule", () =>
+    axios.get<DailySchedule>(`${BASE}/api/horaires/aujourdhui`).then((r) => r.data)
+  );
 }

@@ -20,8 +20,9 @@ export default function Film() {
       .catch(() => setError("Impossible de charger les détails du film."));
   }, [url]);
 
-  if (error) return <p className="p-4 text-red-500">{error}</p>;
-  if (!details) return <p className="p-4">Chargement...</p>;
+  if (error) {
+    return <p className="p-4 text-red-500">{error}</p>;
+  }
 
-  return <MovieDetail details={details} />;
+  return <>{details && <MovieDetail details={details} />}</>;
 }
