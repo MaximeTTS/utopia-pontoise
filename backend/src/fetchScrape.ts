@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import { load } from "cheerio";
-
 export interface Movie {
   title: string;
   link: string;
@@ -15,19 +14,6 @@ export interface MovieDetails extends Movie {
 
 const HEADERS = { headers: { "User-Agent": "Mozilla/5.0", "Accept-Language": "fr" } };
 const WEEK_URL = "https://www.cinemas-utopia.org/saintouen/index.php?mode=prochains";
-
-// Nettoyage rapide de HTML en texte brut
-const clean = (html: string) =>
-  html
-    .replace(/&nbsp;/gi, " ") // remplacer entités &nbsp; par espace
-    .replace(/<img[^>]*>/gi, "") // retirer les balises <img>
-    .replace(/<br\s*\/?>/gi, "\n\n") // convertir <br> en double saut de ligne
-    .replace(/<[^>]+>/g, "") // supprimer toutes les autres balises
-    .replace(/&lt;|&gt;/g, "") // supprimer les entités &lt; et &gt;
-    .replace(/^[«»\s]+/, "") // retirer guillemets français et espaces en début
-    .replace(/^[^A-Za-zÀ-ÖØ-öø-ÿ]*/, "") // retirer tout caractère non-lettre en début
-    .replace(/\s+/g, " ") // compacter les espaces multiples
-    .trim();
 
 // Films de la semaine
 export async function getWeekMovies(): Promise<Movie[]> {
@@ -48,18 +34,19 @@ export async function getWeekMovies(): Promise<Movie[]> {
 // Détails d'un film
 export async function getMovieDetails(url: string): Promise<MovieDetails> {
   const detailUrl = url.includes("mode=film") ? url : `${url}${url.includes("?") ? "&" : "?"}mode=film`;
+
   const { data } = await axios.get(detailUrl, HEADERS);
   const $ = load(data);
 
   const title = $("div#centre div#film h1").text().trim();
-  const raw = $("div#centre div#film p.texte").html() || "";
-  const description = clean(raw);
+  // Récupérer la description brute (HTML -> texte)
+  const description = $("div#centre div#film p.texte").text().trim();
 
-  const img = $("img.imgfilm").attr("src") || "";
-  const image = img ? new URL(img, detailUrl).toString() : null;
+  const imgSrc = $("img.imgfilm").attr("src") || "";
+  const image = imgSrc ? new URL(imgSrc, detailUrl).toString() : null;
 
-  const src = $("video source").attr("src") || $("iframe").attr("src") || "";
-  const trailer = src ? new URL(src, detailUrl).toString() : null;
+  const videoSrc = $("video source").attr("src") || $("iframe").attr("src") || null;
+  const trailer = videoSrc ? new URL(videoSrc, detailUrl).toString() : null;
 
   return { title, link: detailUrl, description, image, trailer };
 }
