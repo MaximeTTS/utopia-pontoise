@@ -21,7 +21,7 @@ const Nav: FC = () => (
 
 const Section2: FC = () => (
   <div className="flex justify-between items-end">
-    <h1 className="text-[14vw] leading-[0.8] mt-10">Sticky Footer</h1>
+    <h1 className="text-[11vw] leading-[0.8] mt-10">UTOPIA PONTOISE</h1>
     <p>©copyright</p>
   </div>
 );

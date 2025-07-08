@@ -1,7 +1,7 @@
 // backend/src/fetchScrape.ts
 
 import axios from "axios";
-import * as cheerio from "cheerio";
+import { load } from "cheerio";
 
 export interface Movie {
   title: string;
@@ -13,75 +13,53 @@ export interface MovieDetails extends Movie {
   trailer: string | null;
 }
 
+const HEADERS = { headers: { "User-Agent": "Mozilla/5.0", "Accept-Language": "fr" } };
 const WEEK_URL = "https://www.cinemas-utopia.org/saintouen/index.php?mode=prochains";
-const HEADERS = {
-  "User-Agent": "Mozilla/5.0",
-  "Accept-Language": "fr",
-};
 
-/**
- * Scrape la liste des films programmés pour la semaine
- * en ciblant la section sous le titre "LES FILMS PROGRAMMÉS".
- */
+// Nettoyage rapide de HTML en texte brut
+const clean = (html: string) =>
+  html
+    .replace(/&nbsp;/gi, " ") // remplacer entités &nbsp; par espace
+    .replace(/<img[^>]*>/gi, "") // retirer les balises <img>
+    .replace(/<br\s*\/?>/gi, "\n\n") // convertir <br> en double saut de ligne
+    .replace(/<[^>]+>/g, "") // supprimer toutes les autres balises
+    .replace(/&lt;|&gt;/g, "") // supprimer les entités &lt; et &gt;
+    .replace(/^[«»\s]+/, "") // retirer guillemets français et espaces en début
+    .replace(/^[^A-Za-zÀ-ÖØ-öø-ÿ]*/, "") // retirer tout caractère non-lettre en début
+    .replace(/\s+/g, " ") // compacter les espaces multiples
+    .trim();
+
+// Films de la semaine
 export async function getWeekMovies(): Promise<Movie[]> {
-  // Charger la page HTML
-  const { data: html } = await axios.get(WEEK_URL, { headers: HEADERS });
-  const $ = cheerio.load(html);
-
-  // Trouver l'en-tête h4 avec texte exact
-  const header = $("h4")
-    .filter((_, el) => $(el).text().trim().toUpperCase().startsWith("LES FILMS PROGRAMMÉS"))
-    .first();
-  if (!header.length) {
-    console.error('⚠️ Section "LES FILMS PROGRAMMÉS" introuvable');
-    return [];
-  }
-
-  // La liste se situe dans la première <ul> qui suit ce header
-  const list = header.nextAll("ul").first();
-  if (!list.length) {
-    console.error("⚠️ Liste des films introuvable après le header");
-    return [];
-  }
-
-  // Parcourir chaque lien dans la liste
-  const movies: Movie[] = [];
-  list.find("li a").each((_, el) => {
-    const a = $(el);
-    const title = a.text().trim();
-    if (!title) return;
-
-    // Construire URL vers la fiche film
-    let href = a.attr("href") || "";
-    if (!href.includes("mode=film")) {
-      href += (href.includes("?") ? "&" : "?") + "mode=film";
-    }
-    const link = new URL(href, WEEK_URL).toString();
-
-    movies.push({ title, link });
-  });
-
-  return movies;
+  const { data } = await axios.get(WEEK_URL, HEADERS);
+  const $ = load(data);
+  return $("h4:contains('LES FILMS PROGRAMMÉS')")
+    .next("ul")
+    .find("li a")
+    .toArray()
+    .map((el) => {
+      const title = $(el).text().trim();
+      let href = $(el).attr("href") || "";
+      if (!href.includes("mode=film")) href += (href.includes("?") ? "&" : "?") + "mode=film";
+      return { title, link: new URL(href, WEEK_URL).toString() };
+    });
 }
 
-/**
- * Scrape la fiche détaillée d'un film via son URL Utopia.
- */
+// Détails d'un film
 export async function getMovieDetails(url: string): Promise<MovieDetails> {
-  // S'assurer du mode film
   const detailUrl = url.includes("mode=film") ? url : `${url}${url.includes("?") ? "&" : "?"}mode=film`;
-  const { data } = await axios.get(detailUrl, { headers: HEADERS });
-  const $ = cheerio.load(data);
+  const { data } = await axios.get(detailUrl, HEADERS);
+  const $ = load(data);
 
   const title = $("div#centre div#film h1").text().trim();
-  const description = $("div#centre div#film p.texte").html()?.trim() || "";
+  const raw = $("div#centre div#film p.texte").html() || "";
+  const description = clean(raw);
 
-  const imgSrc = $("div#centre div#film img.imgfilm").attr("src");
-  const image = imgSrc ? new URL(imgSrc, detailUrl).toString() : null;
+  const img = $("img.imgfilm").attr("src") || "";
+  const image = img ? new URL(img, detailUrl).toString() : null;
 
-  const videoSrc =
-    $("div#centre div#film video source").attr("src") || $("div#centre div#film iframe").attr("src") || null;
-  const trailer = videoSrc ? new URL(videoSrc, detailUrl).toString() : null;
+  const src = $("video source").attr("src") || $("iframe").attr("src") || "";
+  const trailer = src ? new URL(src, detailUrl).toString() : null;
 
   return { title, link: detailUrl, description, image, trailer };
 }
