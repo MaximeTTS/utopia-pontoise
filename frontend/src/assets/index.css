@@ -11,6 +11,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
@@ -24,4 +28,31 @@ code {
 }
 .stairs .transition-background {
   @apply fixed inset-0 bg-black pointer-events-none z-10;
+}
+
+/* hover footer */
+.link-hover-effect {
+  --hover-color: #b91c1c;
+  position: relative;
+  display: inline-block;
+  align-self: flex-start;
+}
+
+.link-hover-effect::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  border-radius: 4px;
+  background-color: var(--hover-color);
+  bottom: -2px;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.link-hover-effect:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
 }

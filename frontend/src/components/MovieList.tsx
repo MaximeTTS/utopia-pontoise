@@ -13,7 +13,7 @@ export default function MovieList() {
   }, []);
 
   return (
-    <div className="">
+    <div className="" id="film">
       <h2 className="text-xl font-bold mb-4">Films de la semaine</h2>
       <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-2.5">
         {movies.map((m) => (

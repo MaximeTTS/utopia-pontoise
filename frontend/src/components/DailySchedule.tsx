@@ -15,7 +15,7 @@ export default function DailyScheduleView() {
   if (!sched) return <p className="p-4">Chargement…</p>;
 
   return (
-    <div className="p-4">
+    <div className="p-4" id="jour">
       <h2 className="text-xl font-bold mb-4">Horaire du jour</h2>
 
       {sched.resourceType === "image" ? (

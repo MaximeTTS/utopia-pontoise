@@ -32,9 +32,9 @@ export function fetchMovieDetails(url: string) {
   );
 }
 
-// Horaire hebdo
+// Horaire de la semaine
 export function fetchWeeklySchedule() {
-  return fetchWithCache("weeklySchedule", () => axios.get<WeeklySchedule>("/api/horaires").then((r) => r.data));
+  return axios.get<WeeklySchedule>("/api/horaires").then((r) => r.data);
 }
 
 // Horaire du jour

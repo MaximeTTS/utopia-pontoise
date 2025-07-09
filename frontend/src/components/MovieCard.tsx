@@ -19,11 +19,11 @@ export default function MovieCard({ title, link, image }: MovieCardProps) {
         <div
           className="group relative overflow-hidden rounded-xl bg-black shadow-xl
           transition-all duration-300 hover:scale-[1.026]
-          w-full aspect-[3/4]
+          w-full aspect-[4/4]
           min-h-[300px]
           sm:min-h-[450px]
           lg:min-h-[500px]
-          2xl:min-h-[600px]"
+          2xl:min-h-[550px]"
         >
           {/* Fond image */}
           {image && (

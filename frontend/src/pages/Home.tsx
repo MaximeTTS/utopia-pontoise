@@ -8,7 +8,9 @@ import DailyScheduleView from "../components/DailySchedule";
 export default function Home() {
   return (
     <div className="p-2">
-      <h1 className="text-2xl font-bold mb-4">Programmation de la semaine</h1>
+      <h1 className="text-2xl font-bold mb-4" id="semaine">
+        Programmation de la semaine
+      </h1>
       {/* Nouvelle section horaires PDF */}
       <ScheduleView />
       {/* Pdf horaire du jour */}
