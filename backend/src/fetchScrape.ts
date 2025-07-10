@@ -11,6 +11,14 @@ export interface MovieDetails extends Movie {
   image: string | null;
   trailer: string | null;
 }
+export interface DailyMovie {
+  title: string;
+  showtime: string;
+  cast: string;
+  dateRange: string;
+  description: string;
+  imageUrl: string;
+}
 
 const HEADERS = { headers: { "User-Agent": "Mozilla/5.0", "Accept-Language": "fr" } };
 const WEEK_URL = "https://www.cinemas-utopia.org/saintouen/index.php?mode=prochains";
@@ -49,4 +57,25 @@ export async function getMovieDetails(url: string): Promise<MovieDetails> {
   const trailer = videoSrc ? new URL(videoSrc, detailUrl).toString() : null;
 
   return { title, link: detailUrl, description, image, trailer };
+}
+
+// Film du jour
+export async function fetchDailyMovie(): Promise<DailyMovie> {
+  const pageUrl = "https://www.cinemas-utopia.org/saintouen/";
+  const response = await axios.get(pageUrl);
+  const $ = load(response.data);
+
+  const filmDiv = $("#film");
+  const showtime = filmDiv.find(".soiree strong").text().trim();
+  const title = filmDiv.find("h1").text().trim();
+  const cast = filmDiv.find(".cast strong").parent().text().trim().replace(/\s+/g, " ");
+  const dateRange = filmDiv.find(".date").text().trim();
+
+  const description = filmDiv.find(".texte").clone().find("img").remove().end().text().replace(/\s+/g, " ").trim();
+
+  // Normalisation de l'URL de l'image
+  const imgRelative = filmDiv.find(".texte img").attr("src") || "";
+  const imageUrl = new URL(imgRelative, pageUrl).href;
+
+  return { title, showtime, cast, dateRange, description, imageUrl };
 }

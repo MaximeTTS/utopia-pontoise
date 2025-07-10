@@ -17,6 +17,14 @@ export interface DailySchedule {
   url: string;
   resourceType: "pdf" | "image";
 }
+export interface DailyMovie {
+  title: string;
+  showtime: string;
+  cast: string;
+  dateRange: string;
+  description: string;
+  imageUrl: string;
+}
 
 const BASE = ""; // proxy CRA → http://localhost:3000
 
@@ -42,4 +50,9 @@ export function fetchDailySchedule() {
   return fetchWithCache("dailySchedule", () =>
     axios.get<DailySchedule>(`${BASE}/api/horaires/aujourdhui`).then((r) => r.data)
   );
+}
+
+// Film du jour
+export function fetchDailyMovie(): Promise<DailyMovie> {
+  return axios.get<DailyMovie>("/api/film-du-jour").then((r) => r.data);
 }

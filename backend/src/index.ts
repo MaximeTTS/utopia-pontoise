@@ -1,7 +1,7 @@
 // Configuration du serveur Express et définition des routes API
 
 import express from "express";
-import { getWeekMovies, getMovieDetails } from "./fetchScrape";
+import { getWeekMovies, getMovieDetails, fetchDailyMovie } from "./fetchScrape";
 import { getWeeklySchedule } from "./fetchSchedule";
 import { getDailySchedule } from "./fetchDailySchedule";
 
@@ -62,6 +62,17 @@ app.get("/api/horaires/aujourdhui", (_req, res) => {
       console.error(err);
       res.status(500).json({ error: "Scraping KO." });
     });
+});
+
+// Route pour le film du jour
+app.get("/api/film-du-jour", async (_req, res) => {
+  try {
+    const today = await fetchDailyMovie();
+    res.json(today);
+  } catch (err) {
+    console.error("Erreur fetchDailyMovie:", err);
+    res.status(500).json({ error: "Impossible de récupérer le film du jour" });
+  }
 });
 
 // Démarrage du serveur
