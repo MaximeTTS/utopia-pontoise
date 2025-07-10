@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { fetchDailySchedule, DailySchedule } from "../api/utopia";
 
@@ -15,19 +17,27 @@ export default function DailyScheduleView() {
   if (!sched) return <p className="p-4">Chargement…</p>;
 
   return (
-    <div className="p-4" id="jour">
-      <h2 className="text-xl font-bold mb-4">Horaire du jour</h2>
+    <div>
+      {/* En-tête centré avec nouveau style */}
+      <div className="text-center mb-8 sm:mb-10 md:mb-12">
+        <h2 className="text-[48px] font-light text-black mb-4">Programme du Jour</h2>
+        <div className="w-24 h-px bg-black mx-auto"></div>
+      </div>
 
-      {sched.resourceType === "image" ? (
-        <img src={sched.url} alt="Horaire du jour" className="w-full max-h-64 object-contain rounded-lg shadow" />
-      ) : (
-        <iframe
-          src={sched.url}
-          title="Horaire du jour PDF"
-          className="w-full h-64 md:h-80 rounded-lg shadow"
-          style={{ border: "none" }}
-        />
-      )}
+      {/* Contenu du programme du jour */}
+      <div className="ml-4 sm:ml-6 md:ml-8 mb-6 sm:mb-8 md:mb-10">
+        {sched.resourceType === "image" ? (
+          <div className="bg-gray-100 p-3 sm:p-4 md:p-6 border border-gray-200">
+            <img src={sched.url} alt="Programme du jour" className="w-full h-auto rounded-lg shadow" />
+          </div>
+        ) : (
+          <iframe
+            src={sched.url}
+            title="Programme du jour"
+            className="w-full h-64 md:h-80 rounded-lg shadow border-none"
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -1,0 +1,101 @@
+"use client";
+
+import React from "react";
+import DailySchedule from "./DailySchedule";
+import ScheduleView from "./ScheduleView";
+
+export default function CinemaProgram() {
+  return (
+    <div className="min-h-screen bg-white">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-6 sm:py-8 md:py-10 lg:py-12">
+        {/* 01 – Programme du jour */}
+        <div className="border-b border-gray-300 pb-6 sm:pb-8 md:pb-10 mb-8 sm:mb-10 md:mb-12">
+          <DailySchedule />
+          <ScheduleView />
+        </div>
+
+        {/* 02 – Nos Tarifs */}
+        <div className="border-b border-gray-300 pb-6 sm:pb-8 md:pb-10 mb-8 sm:mb-10 md:mb-12">
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <h2 className="text-[48px] font-light text-black mb-4">Nos Tarifs</h2>
+            <div className="w-24 h-px bg-black mx-auto"></div>
+          </div>
+
+          <div className="ml-4 sm:ml-6 md:ml-8 space-y-2 sm:space-y-3 md:space-y-4 mb-4 sm:mb-6 md:mb-8">
+            {[
+              { title: "Tarif normal", price: "7,50€", category: "Standard" },
+              {
+                title: "Carnet d'abonnement",
+                price: "55€",
+                category: "Premium",
+                desc: "10 places non limitées dans le temps, valables dans tous les Utopia",
+              },
+              { title: "Groupe", price: "3,50€", category: "Collectif", desc: "Plus de 30 personnes" },
+              {
+                title: "Tarif réduit",
+                price: "4,50€",
+                category: "Réduit",
+                desc: "Étudiants, lycéens, collégiens, demandeurs d'emploi, bénéficiaires du RSA",
+              },
+              { title: "Pass Campus", price: "4,00€", category: "Étudiant" },
+            ].map((tarif, index) => (
+              <div
+                key={index}
+                className="border-l-2 border-gray-200 pl-3 sm:pl-4 md:pl-6 py-3 sm:py-4 hover:border-black transition-colors"
+              >
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4">
+                  <div className="flex-1">
+                    <div className="text-sm uppercase tracking-[0.15em] sm:tracking-[0.2em] text-gray-400 font-medium mb-1">
+                      {tarif.category}
+                    </div>
+                    <div className="text-xl sm:text-2xl font-light text-black mb-1 sm:mb-2">{tarif.title}</div>
+                    {tarif.desc && (
+                      <div className="text-sm sm:text-base text-gray-600 leading-relaxed pr-2 sm:pr-0">
+                        {tarif.desc}
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-xl sm:text-2xl font-semibold text-black text-center min-w-[80px] flex items-center justify-center">
+                    {tarif.price}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="ml-4 sm:ml-6 md:ml-8 text-base sm:text-lg text-gray-600">
+            <span className="font-medium">Les moyens de paiement disponibles :</span> CB, Chèque ou Espèces
+          </div>
+        </div>
+
+        {/* 03 – Informations Pratiques */}
+        <div>
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <h2 className="text-[48px] font-light text-black mb-4">Informations Pratiques</h2>
+            <div className="w-24 h-px bg-black mx-auto"></div>
+          </div>
+
+          <div className="ml-4 sm:ml-6 md:ml-8 space-y-3 sm:space-y-4 md:space-y-5 text-gray-700 leading-relaxed">
+            <div className="border-l-2 border-gray-200 pl-3 sm:pl-4 md:pl-6 py-2 sm:py-3 hover:border-black transition-colors">
+              <h4 className="font-semibold text-black mb-2 sm:mb-3 text-lg sm:text-xl">Horaires de vente</h4>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                En dehors des événements annoncés dans la gazette, les ventes pour toutes les séances sont ouvertes
+                environ 15 minutes avant l'heure indiquée, et définitivement closes 15 minutes après.
+              </p>
+            </div>
+            <div className="border-l-2 border-gray-200 pl-3 sm:pl-4 md:pl-6 py-2 sm:py-3 hover:border-black transition-colors">
+              <h4 className="font-semibold text-black mb-2 sm:mb-3 text-lg sm:text-xl">Règlement intérieur</h4>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                Nous ne vendons pas de pop-corn et nous vous demandons de bien vouloir éteindre vos téléphones, afin de
+                ne pas déranger l'expérience cinématographique de vos voisins.
+              </p>
+            </div>
+            <div className="text-center pt-3 sm:pt-4">
+              <div className="text-xl sm:text-2xl font-thin text-black">Merci de votre compréhension</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

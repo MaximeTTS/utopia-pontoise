@@ -1,20 +1,13 @@
 // frontend/src/pages/Home.tsx
 
 import React from "react";
-import ScheduleView from "../components/ScheduleView";
 import MovieList from "../components/MovieList";
-import DailyScheduleView from "../components/DailySchedule";
+import CinemaProgram from "../components/CinemaProgram";
 
 export default function Home() {
   return (
     <div className="p-2">
-      <h1 className="text-2xl font-bold mb-4" id="semaine">
-        Programmation de la semaine
-      </h1>
-      {/* Nouvelle section horaires PDF */}
-      <ScheduleView />
-      {/* Pdf horaire du jour */}
-      <DailyScheduleView />
+      <CinemaProgram />
       {/* Liste des films */}
       <MovieList />
     </div>

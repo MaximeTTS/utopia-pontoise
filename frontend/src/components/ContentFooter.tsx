@@ -12,10 +12,10 @@ const Nav: FC = () => (
       >
         Site Utopia
       </a>
-      <a href="#film" className="link-hover-effect">
+      <a href="#semaine" className="link-hover-effect">
         Horaires de la semaine
       </a>
-      <a href="#semaine" className="link-hover-effect">
+      <a href="#film" className="link-hover-effect">
         Films de la semaine
       </a>
       <a href="#jour" className="link-hover-effect">
