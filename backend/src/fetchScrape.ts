@@ -2,6 +2,9 @@
 
 import axios from "axios";
 import { load } from "cheerio";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 export interface Movie {
   title: string;
   link: string;
@@ -20,8 +23,15 @@ export interface DailyMovie {
   imageUrl: string;
 }
 
+// Vérification de la clé YouTube
+const YT_API_KEY = process.env.YOUTUBE_API_KEY;
+if (!YT_API_KEY) {
+  throw new Error("La variable YOUTUBE_API_KEY n'est pas définie dans .env");
+}
+
 const HEADERS = { headers: { "User-Agent": "Mozilla/5.0", "Accept-Language": "fr" } };
 const WEEK_URL = "https://www.cinemas-utopia.org/saintouen/index.php?mode=prochains";
+const YT_API_URL = "https://www.googleapis.com/youtube/v3/search";
 
 // Films de la semaine
 export async function getWeekMovies(): Promise<Movie[]> {
@@ -43,17 +53,41 @@ export async function getWeekMovies(): Promise<Movie[]> {
 export async function getMovieDetails(url: string): Promise<MovieDetails> {
   const detailUrl = url.includes("mode=film") ? url : `${url}${url.includes("?") ? "&" : "?"}mode=film`;
 
+  // Scraping initial
   const { data } = await axios.get(detailUrl, HEADERS);
   const $ = load(data);
 
   const title = $("div#centre div#film h1").text().trim();
-  // Récupérer la description brute (HTML -> texte)
   const description = $("div#centre div#film p.texte").text().trim();
 
   const imgSrc = $("img.imgfilm").attr("src") || "";
   const image = imgSrc ? new URL(imgSrc, detailUrl).toString() : null;
 
-  const videoSrc = $("video source").attr("src") || $("iframe").attr("src") || null;
+  let videoSrc = $("video source").attr("src") || $("iframe").attr("src") || null;
+
+  // Fallback YouTube si pas de trailer trouvé
+  if (!videoSrc) {
+    try {
+      const ytRes = await axios.get(YT_API_URL, {
+        params: {
+          key: YT_API_KEY,
+          part: "snippet",
+          q: `${title} trailer`,
+          maxResults: 1,
+          type: "video",
+          videoEmbeddable: "true",
+        },
+      });
+      const items = ytRes.data.items;
+      if (items && items.length > 0) {
+        const videoId = items[0].id.videoId;
+        videoSrc = `https://www.youtube.com/embed/${videoId}`;
+      }
+    } catch {
+      videoSrc = null;
+    }
+  }
+
   const trailer = videoSrc ? new URL(videoSrc, detailUrl).toString() : null;
 
   return { title, link: detailUrl, description, image, trailer };
@@ -62,7 +96,7 @@ export async function getMovieDetails(url: string): Promise<MovieDetails> {
 // Film du jour
 export async function fetchDailyMovie(): Promise<DailyMovie> {
   const pageUrl = "https://www.cinemas-utopia.org/saintouen/";
-  const response = await axios.get(pageUrl);
+  const response = await axios.get(pageUrl, HEADERS);
   const $ = load(response.data);
 
   const filmDiv = $("#film");
@@ -72,8 +106,6 @@ export async function fetchDailyMovie(): Promise<DailyMovie> {
   const dateRange = filmDiv.find(".date").text().trim();
 
   const description = filmDiv.find(".texte").clone().find("img").remove().end().text().replace(/\s+/g, " ").trim();
-
-  // Normalisation de l'URL de l'image
   const imgRelative = filmDiv.find(".texte img").attr("src") || "";
   const imageUrl = new URL(imgRelative, pageUrl).href;
 

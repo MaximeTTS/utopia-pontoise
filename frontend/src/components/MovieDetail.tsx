@@ -5,6 +5,9 @@ interface Props {
   details: MovieDetails;
 }
 
+// Utilitaire pour détecter un embed YouTube
+const isYouTubeUrl = (url: string) => url.startsWith("https://www.youtube.com/embed/") || url.includes("youtu.be/");
+
 export default function MovieDetailEditorial({ details }: Props) {
   // Fonction de nettoyage front-end
   const clean = (text: string) =>
@@ -68,9 +71,22 @@ export default function MovieDetailEditorial({ details }: Props) {
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-4xl font-light tracking-wide text-zinc-900 mb-12 uppercase">Bande-annonce</h2>
               <div className="bg-white border border-zinc-200 shadow-sm p-8">
-                {/* Video player instead of icon */}
-                <div className="relative w-full h-3/5 bg-gray-50 flex items-center justify-center">
-                  <video controls src={details.trailer as string} className="w-full h-full object-cover" />
+                <div className="relative w-full h-0 pb-[56.25%]">
+                  {isYouTubeUrl(details.trailer) ? (
+                    <iframe
+                      src={details.trailer}
+                      title={`Bande-annonce de ${details.title}`}
+                      className="absolute top-0 left-0 w-full h-full rounded"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <video
+                      controls
+                      src={details.trailer}
+                      className="absolute top-0 left-0 w-full h-full object-cover rounded"
+                    />
+                  )}
                 </div>
               </div>
             </div>

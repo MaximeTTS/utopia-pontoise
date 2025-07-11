@@ -33,10 +33,10 @@ export function fetchWeekMovies() {
   return fetchWithCache("weekMovies", () => axios.get<Movie[]>("/api/semaine").then((r) => r.data));
 }
 
-// Détails d'un film
-export function fetchMovieDetails(url: string) {
-  return fetchWithCache(`movieDetails:${url}`, () =>
-    axios.get<MovieDetails>(`${BASE}/api/film?url=${encodeURIComponent(url)}`).then((r) => r.data)
+// Détails d'un film avec l'ajout d'un trailer auto via l'api youtube
+export function fetchMovieDetails(url: string): Promise<MovieDetails> {
+  return fetchWithCache<MovieDetails>(`/api/film?url=${encodeURIComponent(url)}`, () =>
+    axios.get<MovieDetails>(`/api/film?url=${encodeURIComponent(url)}`).then((res) => res.data)
   );
 }
 
