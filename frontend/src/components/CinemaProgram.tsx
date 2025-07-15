@@ -8,7 +8,7 @@ import Title from "./Title";
 export default function CinemaProgram() {
   return (
     <div className="min-h-screen bg-white">
-      <div className=" px-4 sm:px-6 md:px-8 lg:px-10 py-6 sm:py-8 md:py-10 lg:py-12">
+      <div className="border-b border-gray-300 px-4 sm:px-6 md:px-8 lg:px-10 pb-6 sm:pb-8 md:pb-10 lg:pb-12">
         {/* 01 – Programme du jour */}
         <div className="border-b border-gray-300 pb-6 sm:pb-8 md:pb-10 mb-8 sm:mb-10 md:mb-12">
           <DailySchedule />
@@ -16,7 +16,7 @@ export default function CinemaProgram() {
         </div>
 
         {/* 02 – Nos Tarifs */}
-        <div className="border-b border-gray-300 pb-6 sm:pb-8 md:pb-10 mb-8 sm:mb-10 md:mb-12">
+        <div className="pb-6 sm:pb-8 md:pb-10 mb-8 sm:mb-10 md:mb-12">
           <Title title="Nos Tarifs" />
 
           <div className="ml-4 sm:ml-6 md:ml-8 space-y-2 sm:space-y-3 md:space-y-4 mb-4 sm:mb-6 md:mb-8">
@@ -68,7 +68,7 @@ export default function CinemaProgram() {
 
         {/* 03 – Informations Pratiques */}
         <div>
-          <Title title="Imfoamtions Pratiques" />
+          <Title title="Imformations Pratiques" />
 
           <div className="ml-4 sm:ml-6 md:ml-8 space-y-3 sm:space-y-4 md:space-y-5 text-gray-700 leading-relaxed">
             <div className="border-l-2 border-gray-200 pl-3 sm:pl-4 md:pl-6 py-2 sm:py-3 hover:border-black transition-colors">

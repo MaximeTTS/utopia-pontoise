@@ -62,7 +62,7 @@ export default function DailyMovieCard() {
         {/* Synopsis */}
         <div>
           <Title title="Synopsis" />
-          <div className="ml-4 sm:ml-6 md:ml-8 max-w-4xl">
+          <div className="ml-4 sm:ml-6 md:ml-8 w-full">
             <div className="border-l-2 border-gray-200 pl-4 sm:pl-5 md:pl-6 py-5 sm:py-6 hover:border-black transition-colors">
               {movie.description.split("\n").map((para, i) => (
                 <p key={i} className="text-base sm:text-lg text-gray-600 leading-relaxed mb-5">

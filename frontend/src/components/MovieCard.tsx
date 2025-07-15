@@ -1,8 +1,5 @@
-// frontend/src/components/MovieCard.tsx
-
 import { CustomButton } from "./CustomButton";
 import { Link } from "react-router-dom";
-
 interface MovieCardProps {
   title: string;
   link: string;
@@ -15,10 +12,7 @@ export default function MovieCard({ title, link, image }: MovieCardProps) {
   return (
     <div className="flex items-center justify-center rounded-lg">
       <div className="w-full mx-auto">
-        <div
-          className="group relative overflow-hidden rounded-lg bg-black shadow-xl
-            w-full h-[350px]"
-        >
+        <div className="group relative overflow-hidden rounded-lg w-full h-[350px]">
           {/* Background image */}
           {image && (
             <img
@@ -29,7 +23,7 @@ export default function MovieCard({ title, link, image }: MovieCardProps) {
           )}
 
           {/* Superposition dégradée */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
 
           {/* Titre qui disparaît au hover */}
           <div

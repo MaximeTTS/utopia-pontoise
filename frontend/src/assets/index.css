@@ -9,7 +9,14 @@ body {
     "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #ffff;
+  background-color: #03001e;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -33,7 +40,7 @@ code {
 
 /* hover footer */
 .link-hover-effect {
-  --hover-color: #b91c1c;
+  --hover-color: #ffffff;
   position: relative;
   display: inline-block;
   align-self: flex-start;
@@ -56,4 +63,12 @@ code {
 .link-hover-effect:hover::before {
   transform: scaleX(1);
   transform-origin: left;
+}
+
+:root {
+  --color-footer-link: #c4c3ca;
+}
+
+a {
+  @apply text-footer;
 }

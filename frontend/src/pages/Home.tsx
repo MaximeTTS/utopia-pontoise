@@ -9,19 +9,20 @@ import Welcome from "../components/Welcome";
 
 export default function Home() {
   return (
-    <div className="px-2">
-      <div className="max-w-6xl mx-auto ">
-        <Welcome />
-        <CinemaProgram />
-        <Location />
-        {/* Nouveau bloc : film à la une */}
-        <DailyMovieCard />
-      </div>
+    <div className="max-w-6xl mx-auto px-2">
+      <Welcome />
+
+      {/* Localisation */}
+      <CinemaProgram />
+
+      {/* Nouveau bloc : film à la une */}
+      <DailyMovieCard />
 
       {/* Liste des films */}
-      <div className="max-w-none w-full">
-        <MovieList />
-      </div>
+      <MovieList />
+
+      {/* Localisation */}
+      <Location />
     </div>
   );
 }

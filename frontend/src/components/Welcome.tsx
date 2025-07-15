@@ -10,13 +10,9 @@ export default function Welcome() {
           <div className="w-24 h-px bg-black mx-auto"></div>
           <div className="text-left ml-4 sm:ml-6 md:ml-8 mt-6 text-base sm:text-lg text-gray-600 font-light">
             <p>
-              Bienvenue sur la version portfolio de Utopia Pontoise ! Vous y découvrirez l’intégralité du contenu du
-              site officiel, collecté grâce à mes scripts de scraping. Dans le footer, vous trouverez l’ensemble de mes
-              liens professionnels ainsi que la documentation détaillée du projet, qui décrit chaque étape de sa
-              conception et de son développement. <br />
-              <br />
-              Vous pourrez également explorer mon portfolio complet et découvrir mon dernier chantier : la refonte
-              intégrale du site de Vivenden, une chaîne de salles de sport implantée partout en France.
+              Bonjour et bienvenue sur mon projet Utopia Pontoise ! Vous y découvrirez plusieurs contenus du site
+              officiel, collecté grâce à mes scripts de scraping. Dans le footer, vous trouverez l’ensemble de mes liens
+              professionnels pour me contacter ou découvrir mes autres projets.
             </p>
             <p className="text-center">
               <br />

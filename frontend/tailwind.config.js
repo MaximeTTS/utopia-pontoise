@@ -6,6 +6,9 @@ module.exports = {
       screens: {
         xs: "450px",
       },
+      colors: {
+        footer: "var(--color-footer-link)",
+      },
     },
   },
   plugins: [],
