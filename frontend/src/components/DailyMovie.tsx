@@ -21,58 +21,68 @@ export default function DailyMovieCard() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className=" py-6 sm:py-8 md:py-10 lg:py-12">
-        {/* Titre du film */}
-        <Title title={movie.title} />
+    <section>
+      <Title title="FILM DU JOUR" />
+      <div className=" bg-[#29273B] rounded-lg">
+        <div className=" py-6 sm:py-8">
+          {/* Titre du film */}
+          <div className="text-start mb-8">
+            <h2 className="text-[38px] font-normal text-white mb-4 pl-14">{movie.title}</h2>
+            <div className="w-24 h-px bg-white ml-14" />
+          </div>
 
-        {/* Informations et affiche */}
-        <div className="border-b border-gray-300 pb-8 sm:pb-10 md:pb-12 mb-8 sm:mb-10 md:mb-12">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 sm:gap-12 md:gap-16">
-            {/* Informations du film - 3 colonnes */}
-            <div className="lg:col-span-3 ml-4 sm:ml-6 md:ml-8 space-y-4 sm:space-y-5 md:space-y-6">
-              <div className="border-l-2 border-gray-200 pl-4 sm:pl-5 md:pl-6 py-3 sm:py-4 hover:border-black transition-colors">
-                <h4 className="font-semibold text-black mb-3 sm:mb-4 text-xl sm:text-2xl">Séances</h4>
-                <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-                  <span className="font-medium text-black">Horaires :</span> {movie.showtime}
-                  <br />
-                  <span className="font-medium text-black">Période :</span> {movie.dateRange}
-                </p>
+          {/* Informations et affiche */}
+          <div className="border-b border-gray-300 pb-12 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 sm:gap-12 md:gap-16 pr-8">
+              {/* Informations du film - 3 colonnes */}
+              <div className="lg:col-span-3 ml-4 sm:ml-6 md:ml-8 space-y-4 sm:space-y-5 md:space-y-6">
+                <div className="border-l-2 border-gray-200 pl-4 sm:pl-5 md:pl-6 py-3 sm:py-4">
+                  <h4 className="font-semibold text-white mb-3 sm:mb-4 text-xl sm:text-2xl">Séances</h4>
+                  <p className="text-base sm:text-[16px] text-footer leading-relaxed">
+                    <span className="font-medium text-white">Horaires :</span> {movie.showtime}
+                    <br />
+                    <br />
+                    <span className="font-medium text-white">Période :</span> {movie.dateRange}
+                  </p>
+                </div>
+
+                <div className="border-l-2 border-gray-200 pl-4 sm:pl-5 md:pl-6 py-3 sm:py-4">
+                  <h4 className="font-semibold text-white mb-3 sm:mb-4 text-xl sm:text-2xl">Fiche technique</h4>
+                  <p className="text-base sm:text-lg text-footer leading-relaxed">{movie.cast}</p>
+                </div>
               </div>
 
-              <div className="border-l-2 border-gray-200 pl-4 sm:pl-5 md:pl-6 py-3 sm:py-4 hover:border-black transition-colors">
-                <h4 className="font-semibold text-black mb-3 sm:mb-4 text-xl sm:text-2xl">Fiche technique</h4>
-                <p className="text-base sm:text-lg text-gray-600 leading-relaxed">{movie.cast}</p>
-              </div>
-            </div>
-
-            {/* Affiche du film à droite - 2 colonnes */}
-            <div className="lg:col-span-2">
-              <div className="bg-gray-100 p-4 sm:p-5 md:p-6 border border-gray-200 shadow-sm">
-                <img
-                  src={movie.imageUrl}
-                  alt={`Affiche du film ${movie.title}`}
-                  className="w-full h-auto rounded-sm object-cover"
-                />
+              {/* Affiche du film à droite - 2 colonnes */}
+              <div className="lg:col-span-2">
+                <div className="p-4 border border-gray-200 shadow-sm">
+                  <img
+                    src={movie.imageUrl}
+                    alt={`Affiche du film ${movie.title}`}
+                    className="w-full h-auto rounded-sm object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Synopsis */}
-        <div>
-          <Title title="Synopsis" />
-          <div className="ml-4 sm:ml-6 md:ml-8 w-full">
-            <div className="border-l-2 border-gray-200 pl-4 sm:pl-5 md:pl-6 py-5 sm:py-6 hover:border-black transition-colors">
-              {movie.description.split("\n").map((para, i) => (
-                <p key={i} className="text-base sm:text-lg text-gray-600 leading-relaxed mb-5">
-                  {para}
-                </p>
-              ))}
+          {/* Synopsis */}
+          <div>
+            <div className="text-start mb-8">
+              <h2 className="text-[38px] font-normal text-white mb-4 pl-14">SYNOPSIS</h2>
+              <div className="w-24 h-px bg-white ml-14" />
+            </div>
+            <div className="ml-4 sm:ml-6 md:ml-8 w-auto">
+              <div className="border-l-2 border-gray-200 pl-6 py-5 sm:py-6 pr-8">
+                {movie.description.split("\n").map((para, i) => (
+                  <p key={i} className="text-base sm:text-lg text-footer leading-relaxed mb-5">
+                    {para}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

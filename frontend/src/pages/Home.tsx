@@ -15,11 +15,11 @@ export default function Home() {
       {/* Localisation */}
       <CinemaProgram />
 
-      {/* Nouveau bloc : film à la une */}
-      <DailyMovieCard />
-
       {/* Liste des films */}
       <MovieList />
+
+      {/* Nouveau bloc : film à la une */}
+      <DailyMovieCard />
 
       {/* Localisation */}
       <Location />

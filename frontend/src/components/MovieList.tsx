@@ -14,8 +14,8 @@ export default function MovieList() {
   }, []);
 
   return (
-    <div className="" id="film">
-      <Title title="Films de la Semaine" />
+    <div className="py-12" id="film">
+      <Title title="FILMS DE LA SEMAINE" />
       <div className=" max-w-6xl mx-auto grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-2">
         {movies.map((m) => (
           <MovieCard key={m.link} title={m.title} link={m.link} image={m.image} />
