@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchWeeklySchedule, WeeklySchedule } from "../api/utopia";
+import Title from "./Title";
 
 export default function ScheduleView() {
   const [sched, setSched] = useState<WeeklySchedule | null>(null);
@@ -19,23 +20,20 @@ export default function ScheduleView() {
   return (
     <div>
       {/* En-tête centré avec nouveau style */}
-      <div className="text-center mb-8 sm:mb-10 md:mb-12">
-        <h2 className="text-[48px] font-light text-black mb-4">Programme de la Semaine</h2>
-        <div className="w-24 h-px bg-black mx-auto"></div>
-        <div className="text-left ml-4 sm:ml-6 md:ml-8 mt-6">
-          <p className="text-base sm:text-lg text-gray-600 font-light">
-            Veuillez retrouver tout notre programme de la semaine {sched.label.toLowerCase()} via ce{" "}
-            <a
-              href={sched.pdfUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-black underline hover:no-underline"
-            >
-              pdf
-            </a>
-            .
-          </p>
-        </div>
+      <Title title="Programme de la Semaine" />
+      <div className="text-left ml-4 sm:ml-6 md:ml-8 mt-6">
+        <p className="text-base sm:text-lg text-gray-600 font-light">
+          Veuillez retrouver tout notre programme de la semaine {sched.label.toLowerCase()} via ce{" "}
+          <a
+            href={sched.pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-black underline hover:no-underline"
+          >
+            pdf
+          </a>
+          .
+        </p>
       </div>
     </div>
   );

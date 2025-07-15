@@ -96,18 +96,25 @@ export async function getMovieDetails(url: string): Promise<MovieDetails> {
 // Film du jour
 export async function fetchDailyMovie(): Promise<DailyMovie> {
   const pageUrl = "https://www.cinemas-utopia.org/saintouen/";
-  const response = await axios.get(pageUrl, HEADERS);
-  const $ = load(response.data);
-
+  const { data } = await axios.get(pageUrl, HEADERS);
+  const $ = load(data);
   const filmDiv = $("#film");
-  const showtime = filmDiv.find(".soiree strong").text().trim();
   const title = filmDiv.find("h1").text().trim();
+  const showtime = filmDiv.find(".soiree strong").text().trim();
   const cast = filmDiv.find(".cast strong").parent().text().trim().replace(/\s+/g, " ");
   const dateRange = filmDiv.find(".date").text().trim();
+  const rawHtml = filmDiv.find(".texte").html() || "";
+  const description = rawHtml
 
-  const description = filmDiv.find(".texte").clone().find("img").remove().end().text().replace(/\s+/g, " ").trim();
-  const imgRelative = filmDiv.find(".texte img").attr("src") || "";
-  const imageUrl = new URL(imgRelative, pageUrl).href;
+    .replace(/<img[\s\S]*?>/gi, "")
+    .replace(/<\/p>\s*<p>/gi, "\n\n")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/gi, " ")
+    .trim();
+
+  const imgSrc = filmDiv.find(".texte img").attr("src") || "";
+  const imageUrl = new URL(imgSrc, pageUrl).href;
 
   return { title, showtime, cast, dateRange, description, imageUrl };
 }

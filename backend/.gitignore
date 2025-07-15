@@ -1,0 +1,3 @@
+# Ignorer les clés et dépendances
+.env
+node_modules/

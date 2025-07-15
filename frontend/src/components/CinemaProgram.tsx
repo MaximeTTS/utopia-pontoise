@@ -3,11 +3,12 @@
 import React from "react";
 import DailySchedule from "./DailySchedule";
 import ScheduleView from "./ScheduleView";
+import Title from "./Title";
 
 export default function CinemaProgram() {
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-6 sm:py-8 md:py-10 lg:py-12">
+      <div className=" px-4 sm:px-6 md:px-8 lg:px-10 py-6 sm:py-8 md:py-10 lg:py-12">
         {/* 01 – Programme du jour */}
         <div className="border-b border-gray-300 pb-6 sm:pb-8 md:pb-10 mb-8 sm:mb-10 md:mb-12">
           <DailySchedule />
@@ -16,10 +17,7 @@ export default function CinemaProgram() {
 
         {/* 02 – Nos Tarifs */}
         <div className="border-b border-gray-300 pb-6 sm:pb-8 md:pb-10 mb-8 sm:mb-10 md:mb-12">
-          <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h2 className="text-[48px] font-light text-black mb-4">Nos Tarifs</h2>
-            <div className="w-24 h-px bg-black mx-auto"></div>
-          </div>
+          <Title title="Nos Tarifs" />
 
           <div className="ml-4 sm:ml-6 md:ml-8 space-y-2 sm:space-y-3 md:space-y-4 mb-4 sm:mb-6 md:mb-8">
             {[
@@ -70,10 +68,7 @@ export default function CinemaProgram() {
 
         {/* 03 – Informations Pratiques */}
         <div>
-          <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h2 className="text-[48px] font-light text-black mb-4">Informations Pratiques</h2>
-            <div className="w-24 h-px bg-black mx-auto"></div>
-          </div>
+          <Title title="Imfoamtions Pratiques" />
 
           <div className="ml-4 sm:ml-6 md:ml-8 space-y-3 sm:space-y-4 md:space-y-5 text-gray-700 leading-relaxed">
             <div className="border-l-2 border-gray-200 pl-3 sm:pl-4 md:pl-6 py-2 sm:py-3 hover:border-black transition-colors">

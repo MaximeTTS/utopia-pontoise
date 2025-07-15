@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchDailySchedule, DailySchedule } from "../api/utopia";
+import Title from "./Title";
 
 export default function DailyScheduleView() {
   const [sched, setSched] = useState<DailySchedule | null>(null);
@@ -19,10 +20,7 @@ export default function DailyScheduleView() {
   return (
     <div>
       {/* En-tête centré avec nouveau style */}
-      <div className="text-center mb-8 sm:mb-10 md:mb-12">
-        <h2 className="text-[48px] font-light text-black mb-4">Programme du Jour</h2>
-        <div className="w-24 h-px bg-black mx-auto"></div>
-      </div>
+      <Title title="Programme du Jour" />
 
       {/* Contenu du programme du jour */}
       <div className="ml-4 sm:ml-6 md:ml-8 mb-6 sm:mb-8 md:mb-10">

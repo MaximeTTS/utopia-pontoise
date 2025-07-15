@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchWeekMovies, fetchMovieDetails, MovieDetails } from "../api/utopia";
 import MovieCard from "./MovieCard";
+import Title from "./Title";
 
 export default function MovieList() {
   const [movies, setMovies] = useState<MovieDetails[]>([]);
@@ -14,8 +15,8 @@ export default function MovieList() {
 
   return (
     <div className="" id="film">
-      <h2 className="text-xl font-bold mb-4">Films de la semaine</h2>
-      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-2.5">
+      <Title title="Cinémas Utopia Pontoise" />
+      <div className=" max-w-6xl mx-auto grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-2">
         {movies.map((m) => (
           <MovieCard key={m.link} title={m.title} link={m.link} image={m.image} />
         ))}

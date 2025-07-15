@@ -1,6 +1,7 @@
 // frontend/src/components/DailyMovieCard.tsx
 import React, { useEffect, useState } from "react";
 import { fetchDailyMovie, DailyMovie } from "../api/utopia";
+import Title from "./Title";
 
 export default function DailyMovieCard() {
   const [movie, setMovie] = useState<DailyMovie | null>(null);
@@ -21,12 +22,9 @@ export default function DailyMovieCard() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-6 sm:py-8 md:py-10 lg:py-12">
+      <div className=" py-6 sm:py-8 md:py-10 lg:py-12">
         {/* Titre du film */}
-        <div className="text-center mb-8 sm:mb-10 md:mb-12">
-          <h2 className="text-[48px] font-light text-black mb-4">{movie.title}</h2>
-          <div className="w-24 h-px bg-black mx-auto" />
-        </div>
+        <Title title={movie.title} />
 
         {/* Informations et affiche */}
         <div className="border-b border-gray-300 pb-8 sm:pb-10 md:pb-12 mb-8 sm:mb-10 md:mb-12">
@@ -63,11 +61,7 @@ export default function DailyMovieCard() {
 
         {/* Synopsis */}
         <div>
-          <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h2 className="text-[48px] font-light text-black mb-4">Synopsis</h2>
-            <div className="w-24 h-px bg-black mx-auto" />
-          </div>
-
+          <Title title="Synopsis" />
           <div className="ml-4 sm:ml-6 md:ml-8 max-w-4xl">
             <div className="border-l-2 border-gray-200 pl-4 sm:pl-5 md:pl-6 py-5 sm:py-6 hover:border-black transition-colors">
               {movie.description.split("\n").map((para, i) => (

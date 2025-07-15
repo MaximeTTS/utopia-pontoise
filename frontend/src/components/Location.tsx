@@ -1,15 +1,13 @@
 "use client";
 
 import React from "react";
+import Title from "./Title";
 
 export default function Location() {
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-6 sm:py-8 md:py-10 lg:py-12">
+    <div className=" px-4 sm:px-6 md:px-8 lg:px-10 py-6 sm:py-8 md:py-10 lg:py-12">
       {/* Titre principal */}
-      <div className="text-center mb-8 sm:mb-10 md:mb-12">
-        <h2 className="text-[48px] font-light text-black mb-4">Notre Localisation</h2>
-        <div className="w-24 h-px bg-black mx-auto"></div>
-      </div>
+      <Title title="Notre Localisation" />
 
       {/* Carte Google Maps */}
       <div className="mb-8 sm:mb-10 md:mb-12">
