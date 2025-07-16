@@ -16,7 +16,7 @@ export default function CinemaProgram() {
         </div>
 
         {/* 02 – Nos Tarifs */}
-        <div className="pt-8 pb-4 mb-12 bg-[#29273B] rounded-lg mt-12">
+        <div id="Tarifs" className="pt-8 pb-4 mb-12 bg-[#29273B] rounded-lg mt-12">
           <Title title="NOS TARIFS" />
 
           <div className="p-4 md:p-8 pt-0 space-y-6 sm:space-y-3 md:space-y-4">

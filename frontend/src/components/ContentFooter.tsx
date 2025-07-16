@@ -9,8 +9,8 @@ const Nav: FC = () => (
       <a href="https://www.cinemas-utopia.org/saintouen/" className="link-hover-effect">
         Site Utopia
       </a>
-      <a href="#semaine" className="link-hover-effect">
-        Horaires de la semaine
+      <a href="#Tarifs" className="link-hover-effect">
+        Nos tarifs
       </a>
       <a href="#film" className="link-hover-effect">
         Films de la semaine

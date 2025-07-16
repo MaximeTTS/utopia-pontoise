@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Lenis from "lenis";
 import { opacity, expand } from "./anim";
 import Footer from "../components/Footer";
+import Header from "./Header";
 
 interface LayoutProps {
   children: ReactNode;
@@ -37,6 +38,9 @@ export default function Layout({ children, backgroundColor = "transparent" }: La
         {[...Array(nbOfColumns)].map((_, i) => (
           <motion.div key={i} {...anim(expand, nbOfColumns - i)} />
         ))}
+      </div>
+      <div className="max-w-6xl mx-auto px-2">
+        <Header />
       </div>
       {children}
       <Footer />
