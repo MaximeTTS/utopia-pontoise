@@ -32,8 +32,8 @@ export default function DailyMovieCard() {
           </div>
 
           {/* Informations et affiche */}
-          <div className="border-b border-gray-300 pb-12 mb-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 p-4">
+          <div className="border-b border-gray-300 pb-12 mb-8 m-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
               {/* Informations du film */}
               <div className="space-y-4 sm:space-y-5 md:space-y-6">
                 <div className="border-l-2 border-gray-200 pl-4 sm:pl-5 md:pl-6 py-3 sm:py-4">
@@ -65,13 +65,13 @@ export default function DailyMovieCard() {
           </div>
 
           {/* Synopsis */}
-          <div>
+          <div className="md:m-[-16px]">
             <div className="text-start mb-8">
               <h2 className="text-[28px] xs:text-[32px] font-normal text-white mb-2 pl-8 md:pl-14">SYNOPSIS</h2>
               <div className="w-24 h-px bg-white ml-8 md:ml-14" />
             </div>
             <div className="ml-4 sm:ml-6 md:ml-8 w-auto">
-              <div className="border-l-2 border-gray-200 pl-4 py-5 sm:py-6 pr-6">
+              <div className="border-l-2 border-gray-200 pl-4 py-5 sm:py-6 pr-6 md:pr-8">
                 {movie.description.split("\n").map((para, i) => (
                   <p key={i} className="text-base sm:text-lg text-footer leading-relaxed mb-5">
                     {para}

@@ -72,3 +72,9 @@ code {
 a {
   @apply text-footer;
 }
+
+.poster-container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 80px; /* votre seuil */
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MovieDetails } from "../api/utopia";
 import Title from "./Title";
 
@@ -6,26 +6,51 @@ interface Props {
   details: MovieDetails;
 }
 
-// Utilitaire pour détecter un embed YouTube
 const isYouTubeUrl = (url: string) => url.startsWith("https://www.youtube.com/embed/") || url.includes("youtu.be/");
 
 export default function MovieDetailEditorial({ details }: Props) {
-  // Fonction de nettoyage front-end
-  const clean = (text: string) =>
-    text
-      .replace(/&nbsp;/gi, " ")
-      .replace(/&lt;|&gt;/g, "")
-      .replace(/>+/g, "")
-      .trim();
+  const parentRef = useRef<HTMLDivElement>(null);
+  const posterRef = useRef<HTMLDivElement>(null);
 
-  // Découpage de la description en paragraphes nettoyés
-  const paragraphs = clean(details.description)
+  const [posterStyle, setPosterStyle] = useState<React.CSSProperties>({});
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const parent = parentRef.current;
+      const poster = posterRef.current;
+      if (!parent || !poster) {
+        return setPosterStyle({});
+      }
+
+      const { top } = parent.getBoundingClientRect();
+      const maxY = parent.offsetHeight - poster.offsetHeight;
+      if (maxY <= 0) {
+        return setPosterStyle({});
+      }
+
+      const shift = Math.min(Math.max(80 - top, 0), maxY);
+      setPosterStyle({ transform: `translateY(${shift}px)` });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+    handleScroll();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [details]);
+
+  // Nettoyage et découpe des paragraphes
+  const paragraphs = details.description
+    .replace(/<[^>]+>/g, "")
     .split("\n\n")
     .map((p) => p.trim())
-    .filter((p) => p);
+    .filter(Boolean);
 
   return (
     <div className="max-w-7xl mx-auto px-2 ">
+      {/* En-tête avec titre */}
       <div className="bg-[#03001e]">
         <div className="mx-auto py-16">
           <div className="max-w-6xl">
@@ -37,8 +62,10 @@ export default function MovieDetailEditorial({ details }: Props) {
         </div>
       </div>
 
+      {/* Contenu éditorial */}
       <div className="mx-auto py-4 mb-16 rounded-lg bg-[#29273B]">
-        <div className="grid lg:grid-cols-12 gap-16">
+        <div className="grid lg:grid-cols-12">
+          {/* Texte */}
           <div className="lg:col-span-8 space-y-8">
             {paragraphs.map((para, idx) => (
               <p
@@ -54,10 +81,10 @@ export default function MovieDetailEditorial({ details }: Props) {
             ))}
           </div>
 
-          {/* Affiche éditorial */}
+          {/* Affiche du film animée */}
           {details.image && (
-            <div className="lg:col-span-4 lg:pr-4 pr-0">
-              <div className="flex justify-center pt-4">
+            <div ref={parentRef} className="lg:col-span-4 lg:pr-4 pr-0 my-4">
+              <div ref={posterRef} style={posterStyle} className="flex justify-center pt-4 p-4 lg:p-0">
                 <div className="p-8 w-full max-w-[350px] border border-zinc-200 shadow-sm bg-[#29273B]">
                   <img src={details.image} alt={details.title} className="w-full h-auto object-cover max-h-[700px]" />
                 </div>
@@ -66,12 +93,12 @@ export default function MovieDetailEditorial({ details }: Props) {
           )}
         </div>
 
-        {/* Bande-annonce centrée si disponible */}
+        {/* Bande-annonce avec l'api youtube si pas dispo backend */}
         {details.trailer && (
           <div className="m-4 mt-16 pt-16 border-t border-white">
             <div className="max-w-4xl mx-auto text-center">
               <Title title="BANDE-ANNONCE" />
-              <div className=" =border border-zinc-200 shadow-sm ">
+              <div className="border border-zinc-200 shadow-sm ">
                 <div className="relative w-full h-0 pb-[56.25%]">
                   {isYouTubeUrl(details.trailer) ? (
                     <iframe
