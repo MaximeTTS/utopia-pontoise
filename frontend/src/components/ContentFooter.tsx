@@ -6,7 +6,7 @@ const Nav: FC = () => (
     {/* Colonne “À propos” */}
     <div className="flex flex-col gap-2 text-[17px]">
       <h3 className="mb-2 uppercase text-white">À propos</h3>
-      <a href="…" className="link-hover-effect">
+      <a href="https://www.cinemas-utopia.org/saintouen/" className="link-hover-effect">
         Site Utopia
       </a>
       <a href="#semaine" className="link-hover-effect">
@@ -23,17 +23,32 @@ const Nav: FC = () => (
     {/* Colonne “À propos de moi” */}
     <div className="flex flex-col gap-2 text-[17px]">
       <h3 className="mb-2 uppercase text-white">À propos de moi</h3>
-      <a href="…" className="link-hover-effect">
+      <a
+        href="https://gmsproject-01.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="link-hover-effect"
+      >
         Mon dernier projet
       </a>
-      <a href="…" className="link-hover-effect">
+      <a
+        href="https://maxime-turquet.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="link-hover-effect"
+      >
         Mon portfolio
       </a>
-      <a href="…" className="link-hover-effect">
+      <a href="https://github.com/MaximeTTS" target="_blank" rel="noopener noreferrer" className="link-hover-effect">
         Mon GitHub
       </a>
-      <a href="…" className="link-hover-effect">
-        Mon CV
+      <a
+        href="/CV%20Maxime%20Turquet%20Samus.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="link-hover-effect"
+      >
+        Mon CV
       </a>
     </div>
   </div>

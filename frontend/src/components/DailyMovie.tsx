@@ -22,20 +22,20 @@ export default function DailyMovieCard() {
 
   return (
     <section>
-      <Title title="FILM DU JOUR" />
       <div className=" bg-[#29273B] rounded-lg">
         <div className=" py-6 sm:py-8">
+          <Title title="FILM DU JOUR" />
           {/* Titre du film */}
           <div className="text-start mb-8">
-            <h2 className="text-[38px] font-normal text-white mb-4 pl-14">{movie.title}</h2>
-            <div className="w-24 h-px bg-white ml-14" />
+            <h2 className="text-[28px] xs:text-[32px] font-normal text-white mb-2 pl-8 md:pl-14">{movie.title}</h2>
+            <div className="w-24 h-px bg-white ml-8 md:ml-14" />
           </div>
 
           {/* Informations et affiche */}
           <div className="border-b border-gray-300 pb-12 mb-8">
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 sm:gap-12 md:gap-16 pr-8">
-              {/* Informations du film - 3 colonnes */}
-              <div className="lg:col-span-3 ml-4 sm:ml-6 md:ml-8 space-y-4 sm:space-y-5 md:space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 p-4">
+              {/* Informations du film */}
+              <div className="space-y-4 sm:space-y-5 md:space-y-6">
                 <div className="border-l-2 border-gray-200 pl-4 sm:pl-5 md:pl-6 py-3 sm:py-4">
                   <h4 className="font-semibold text-white mb-3 sm:mb-4 text-xl sm:text-2xl">Séances</h4>
                   <p className="text-base sm:text-[16px] text-footer leading-relaxed">
@@ -45,20 +45,19 @@ export default function DailyMovieCard() {
                     <span className="font-medium text-white">Période :</span> {movie.dateRange}
                   </p>
                 </div>
-
                 <div className="border-l-2 border-gray-200 pl-4 sm:pl-5 md:pl-6 py-3 sm:py-4">
                   <h4 className="font-semibold text-white mb-3 sm:mb-4 text-xl sm:text-2xl">Fiche technique</h4>
-                  <p className="text-base sm:text-lg text-footer leading-relaxed">{movie.cast}</p>
+                  <p className="text-base sm:text-lg text-footer leading-relaxed break-words">{movie.cast}</p>
                 </div>
               </div>
 
-              {/* Affiche du film à droite - 2 colonnes */}
-              <div className="lg:col-span-2">
+              {/* Affiche du film */}
+              <div className="flex items-center justify-center md:justify-end">
                 <div className="p-4 border border-gray-200 shadow-sm">
                   <img
                     src={movie.imageUrl}
                     alt={`Affiche du film ${movie.title}`}
-                    className="w-full h-auto rounded-sm object-cover"
+                    className="w-full max-w-[400px] h-auto rounded-sm object-cover"
                   />
                 </div>
               </div>
@@ -68,11 +67,11 @@ export default function DailyMovieCard() {
           {/* Synopsis */}
           <div>
             <div className="text-start mb-8">
-              <h2 className="text-[38px] font-normal text-white mb-4 pl-14">SYNOPSIS</h2>
-              <div className="w-24 h-px bg-white ml-14" />
+              <h2 className="text-[28px] xs:text-[32px] font-normal text-white mb-2 pl-8 md:pl-14">SYNOPSIS</h2>
+              <div className="w-24 h-px bg-white ml-8 md:ml-14" />
             </div>
             <div className="ml-4 sm:ml-6 md:ml-8 w-auto">
-              <div className="border-l-2 border-gray-200 pl-6 py-5 sm:py-6 pr-8">
+              <div className="border-l-2 border-gray-200 pl-4 py-5 sm:py-6 pr-6">
                 {movie.description.split("\n").map((para, i) => (
                   <p key={i} className="text-base sm:text-lg text-footer leading-relaxed mb-5">
                     {para}

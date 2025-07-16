@@ -18,14 +18,14 @@ export default function DailyScheduleView() {
   if (!sched) return <p className="p-4">Chargement…</p>;
 
   return (
-    <div>
+    <div id="jour">
       {/* En-tête centré avec nouveau style */}
-      <Title title="Programme du Jour" />
+      <Title title="PROGRAMME DU JOUR" />
 
       {/* Contenu du programme du jour */}
-      <div className="ml-4 sm:ml-6 md:ml-8 mb-6 sm:mb-8 md:mb-10">
+      <div className="mb-8">
         {sched.resourceType === "image" ? (
-          <div className="bg-gray-100 p-3 sm:p-4 md:p-6 border border-gray-200">
+          <div className=" p-3 sm:p-4 md:p-6 border border-gray-200">
             <img src={sched.url} alt="Programme du jour" className="w-full h-auto rounded-lg shadow" />
           </div>
         ) : (

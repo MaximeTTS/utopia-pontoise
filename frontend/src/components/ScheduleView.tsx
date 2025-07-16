@@ -19,18 +19,17 @@ export default function ScheduleView() {
   return (
     <div>
       {/* En-tête centré avec nouveau style */}
-      <div className="text-left ml-4 sm:ml-6 md:ml-8 mt-6">
-        <p className="text-base sm:text-lg text-gray-600 font-light">
+      <div className="text-left">
+        <p className="text-base sm:text-lg text-white font-light">
           Vous pouvez consulter le programme détaillé de la semaine {sched.label.toLowerCase()} via ce{" "}
           <a
             href={sched.pdfUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-black underline hover:no-underline"
+            className="text-white underline hover:no-underline"
           >
             pdf
           </a>
-          .
         </p>
       </div>
     </div>

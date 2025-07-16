@@ -6,12 +6,11 @@ import Title from "./Title";
 export default function Location() {
   return (
     <div className=" py-6 sm:py-8 md:py-10 lg:py-12">
-      {/* Titre principal */}
-      <Title title="NOTRE LOCALISATION" />
-
       {/* Carte Google Maps */}
       <div className="mb-10">
         <div className="bg-[#29273B] p-3 sm:p-4 md:p-6  rounded-lg ">
+          {/* Titre principal */}
+          <Title title="NOTRE LOCALISATION" />
           {/* Iframe Google Maps intégré */}
           <iframe
             title="Carte Google Maps Utopia"
