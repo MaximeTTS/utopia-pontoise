@@ -1,5 +1,6 @@
 import React from "react";
 import { MovieDetails } from "../api/utopia";
+import Title from "./Title";
 
 interface Props {
   details: MovieDetails;
@@ -24,19 +25,19 @@ export default function MovieDetailEditorial({ details }: Props) {
     .filter((p) => p);
 
   return (
-    <div className="min-h-screen ">
-      <div className="bg-white ">
-        <div className="container mx-auto px-4 py-20 border-b border-zinc-200">
-          <div className="max-w-4xl">
-            <h1 className="text-7xl md:text-8xl font-thin tracking-tight leading-[0.85] text-zinc-900 mb-8">
+    <div className="max-w-7xl mx-auto px-2 ">
+      <div className="bg-[#03001e]">
+        <div className="mx-auto py-16">
+          <div className="max-w-6xl">
+            <h1 className="text-[32px] xs:text-[38px] md:text-[48px] lg:text-[72px] text-white mb-4 p-4">
               {details.title}
             </h1>
-            <div className="w-24 h-px bg-red-600 mt-8" />
+            <div className="w-48 h-px bg-white ml-4" />
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-16 bg-zinc-50">
+      <div className="mx-auto py-4 mb-16 rounded-lg bg-[#29273B]">
         <div className="grid lg:grid-cols-12 gap-16">
           <div className="lg:col-span-8 space-y-8">
             {paragraphs.map((para, idx) => (
@@ -44,8 +45,8 @@ export default function MovieDetailEditorial({ details }: Props) {
                 key={idx}
                 className={
                   idx === 0
-                    ? "text-lg leading-relaxed text-zinc-700 font-light first-letter:text-6xl first-letter:font-thin first-letter:float-left first-letter:mr-2 first-letter:-mt-1 first-letter:text-red-600"
-                    : "text-lg leading-relaxed text-zinc-700 font-light"
+                    ? "text-lg leading-relaxed text-white font-light first-letter:text-6xl first-letter:font-thin first-letter:float-left first-letter:mr-2 first-letter:-mt-1 first-letter:text-red-600 p-4"
+                    : "text-lg leading-relaxed text-white font-light p-4"
                 }
               >
                 {para}
@@ -55,9 +56,9 @@ export default function MovieDetailEditorial({ details }: Props) {
 
           {/* Affiche éditorial */}
           {details.image && (
-            <div className="lg:col-span-4">
-              <div className="sticky top-8">
-                <div className="bg-white p-8 shadow-sm border border-zinc-200">
+            <div className="lg:col-span-4 lg:pr-4 pr-0">
+              <div className="flex justify-center pt-4">
+                <div className="p-8 w-full max-w-[350px] border border-zinc-200 shadow-sm bg-[#29273B]">
                   <img src={details.image} alt={details.title} className="w-full h-auto object-cover max-h-[700px]" />
                 </div>
               </div>
@@ -67,10 +68,10 @@ export default function MovieDetailEditorial({ details }: Props) {
 
         {/* Bande-annonce centrée si disponible */}
         {details.trailer && (
-          <div className="mt-32 pt-16 border-t border-zinc-200">
+          <div className="m-4 mt-16 pt-16 border-t border-white">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl font-light tracking-wide text-zinc-900 mb-12 uppercase">Bande-annonce</h2>
-              <div className="bg-white border border-zinc-200 shadow-sm p-8">
+              <Title title="BANDE-ANNONCE" />
+              <div className=" =border border-zinc-200 shadow-sm ">
                 <div className="relative w-full h-0 pb-[56.25%]">
                   {isYouTubeUrl(details.trailer) ? (
                     <iframe
