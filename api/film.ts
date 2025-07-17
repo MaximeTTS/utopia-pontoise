@@ -1,5 +1,6 @@
+// Serverless API returning detailed information for one movie
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getMovieDetails } from "../backend/src/fetchScrape";
+import { getMovieDetails } from "../backend/src/scrapers/fetchScrape";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const queryUrl = Array.isArray(req.query.url) ? req.query.url[0] : req.query.url;

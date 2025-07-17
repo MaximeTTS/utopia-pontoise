@@ -1,9 +1,13 @@
-// Configuration du serveur Express et définition des routes API
+// Express server exposing scraping endpoints
 
 import express from "express";
-import { getWeekMovies, getMovieDetails, fetchDailyMovie } from "./fetchScrape";
-import { getWeeklySchedule } from "./fetchSchedule";
-import { getDailySchedule } from "./fetchDailySchedule";
+import {
+  getWeekMovies,
+  getMovieDetails,
+  fetchDailyMovie,
+} from "./scrapers/fetchScrape";
+import { getWeeklySchedule } from "./scrapers/fetchSchedule";
+import { getDailySchedule } from "./scrapers/fetchDailySchedule";
 
 const app = express();
 const PORT = process.env.PORT || 3000;

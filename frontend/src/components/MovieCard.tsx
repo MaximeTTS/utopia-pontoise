@@ -1,3 +1,4 @@
+// Card showing a movie with link to its detail page
 import { CustomButton } from "./CustomButton";
 import { Link } from "react-router-dom";
 interface MovieCardProps {

@@ -1,4 +1,4 @@
-// src/index.tsx
+// Entry point mounting the React app and router
 
 import React from "react";
 import { createRoot } from "react-dom/client";

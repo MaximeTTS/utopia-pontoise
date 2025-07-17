@@ -1,5 +1,6 @@
+// Serverless API giving the weekly schedule PDF
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getWeeklySchedule } from "../backend/src/fetchSchedule";
+import { getWeeklySchedule } from "../backend/src/scrapers/fetchSchedule";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

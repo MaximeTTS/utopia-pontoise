@@ -1,3 +1,4 @@
+// Shows today's schedule download link
 "use client";
 
 import React, { useEffect, useState } from "react";

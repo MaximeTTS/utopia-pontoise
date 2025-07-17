@@ -1,3 +1,4 @@
+/* Tailwind base styles and global resets */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

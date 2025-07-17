@@ -1,5 +1,6 @@
+// Serverless API retrieving today's schedule
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getDailySchedule } from "../../backend/src/fetchDailySchedule";
+import { getDailySchedule } from "../../backend/src/scrapers/fetchDailySchedule";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

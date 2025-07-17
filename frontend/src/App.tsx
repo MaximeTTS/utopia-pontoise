@@ -1,3 +1,4 @@
+// Defines routes and transitions for the React app
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";

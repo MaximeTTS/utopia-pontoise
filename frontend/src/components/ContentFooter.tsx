@@ -1,3 +1,4 @@
+// Footer navigation links and info
 import React, { FC } from "react";
 
 // Composant de navigation avec grid responsive

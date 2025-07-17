@@ -1,3 +1,4 @@
+// Framer Motion animation variants used across pages
 import { Variants } from "framer-motion";
 
 export const expand: Variants = {

@@ -1,3 +1,4 @@
+// Hero section welcoming the user
 import React from "react";
 import Title from "./Title";
 

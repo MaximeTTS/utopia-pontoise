@@ -1,4 +1,4 @@
-// frontend/src/pages/Home.tsx
+// Main landing page assembling all sections
 
 import React from "react";
 import MovieList from "../components/MovieList";

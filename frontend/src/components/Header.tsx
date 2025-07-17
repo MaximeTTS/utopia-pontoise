@@ -1,4 +1,4 @@
-// src/components/Header.tsx
+// Application header with logo and navigation
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
