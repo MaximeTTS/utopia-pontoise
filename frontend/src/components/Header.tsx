@@ -34,7 +34,7 @@ const Header: FC = () => (
             </a>
           </li>
           <li>
-            <a href="/#jour" className="text-white text-base link-hover-effect block py-1">
+            <a href="/#Daily" className="text-white text-base link-hover-effect block py-1">
               Film du jour
             </a>
           </li>

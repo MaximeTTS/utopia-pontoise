@@ -49,10 +49,10 @@ export default function MovieDetailEditorial({ details }: Props) {
     .filter(Boolean);
 
   return (
-    <div className="max-w-7xl mx-auto px-2 ">
+    <div className="max-w-6xl mx-auto px-2 ">
       {/* En-tête avec titre */}
       <div className="bg-[#03001e]">
-        <div className="mx-auto py-16">
+        <div className="mx-auto pb-16 pt-8">
           <div className="max-w-6xl">
             <h1 className="text-[32px] xs:text-[38px] md:text-[48px] lg:text-[72px] text-white mb-4 p-4">
               {details.title}
@@ -98,7 +98,7 @@ export default function MovieDetailEditorial({ details }: Props) {
           <div className="m-4 mt-16 pt-16 border-t border-white">
             <div className="max-w-4xl mx-auto text-center">
               <Title title="BANDE-ANNONCE" />
-              <div className="border border-zinc-200 shadow-sm ">
+              <div className="border border-zinc-200 shadow-sm">
                 <div className="relative w-full h-0 pb-[56.25%]">
                   {isYouTubeUrl(details.trailer) ? (
                     <iframe

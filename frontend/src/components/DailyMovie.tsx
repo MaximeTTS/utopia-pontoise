@@ -22,7 +22,7 @@ export default function DailyMovieCard() {
 
   return (
     <section>
-      <div className=" bg-[#29273B] rounded-lg">
+      <div id="Daily" className=" bg-[#29273B] rounded-lg">
         <div className=" py-6 sm:py-8">
           <Title title="FILM DU JOUR" />
           {/* Titre du film */}
