@@ -1,3 +1,4 @@
+// Scrape the "weekly schedule" section and return the PDF link
 import axios from "axios";
 import * as cheerio from "cheerio";
 

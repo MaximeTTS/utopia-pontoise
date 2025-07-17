@@ -1,4 +1,4 @@
-// backend/src/fetchScrape.ts
+// Utility functions to scrape movie listings and details
 
 import axios from "axios";
 import { load } from "cheerio";

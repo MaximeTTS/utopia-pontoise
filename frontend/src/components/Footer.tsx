@@ -1,3 +1,4 @@
+// Floating footer container component
 import React, { FC } from "react";
 import ContentFooter from "./ContentFooter";
 

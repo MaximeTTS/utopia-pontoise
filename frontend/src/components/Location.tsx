@@ -1,3 +1,4 @@
+// Google Maps embed for the cinema location
 "use client";
 
 import React from "react";

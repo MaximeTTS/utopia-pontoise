@@ -1,3 +1,4 @@
+// Common page layout with header, footer and animations
 import React, { ReactNode, useEffect } from "react";
 import { motion } from "framer-motion";
 import Lenis from "lenis";

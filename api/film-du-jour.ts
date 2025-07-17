@@ -1,5 +1,6 @@
+// Serverless API returning the movie of the day
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { fetchDailyMovie } from "../backend/src/fetchScrape";
+import { fetchDailyMovie } from "../backend/src/scrapers/fetchScrape";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

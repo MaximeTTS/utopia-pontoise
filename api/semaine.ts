@@ -1,5 +1,6 @@
+// Serverless API listing this week's movies
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getWeekMovies } from "../backend/src/fetchScrape";
+import { getWeekMovies } from "../backend/src/scrapers/fetchScrape";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

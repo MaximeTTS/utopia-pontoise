@@ -1,3 +1,4 @@
+// Displays daily schedule and weekly program sections
 "use client";
 
 import React from "react";

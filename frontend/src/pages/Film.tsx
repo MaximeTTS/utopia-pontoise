@@ -1,3 +1,4 @@
+// Page displaying movie details fetched from the API
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchMovieDetails, MovieDetails } from "../api/utopia";

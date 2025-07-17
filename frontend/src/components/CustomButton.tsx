@@ -1,4 +1,4 @@
-// frontend/src/components/CustomButton.tsx
+// Reusable button with optional styling
 "use client";
 import type { ReactNode } from "react";
 

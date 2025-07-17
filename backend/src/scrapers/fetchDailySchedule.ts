@@ -1,4 +1,4 @@
-// backend/src/fetchDailySchedule.ts
+// Scrape the PDF or image with today's schedule
 import axios from "axios";
 import * as cheerio from "cheerio";
 

@@ -1,3 +1,4 @@
+// Simple heading component with underline
 import React from "react";
 interface TitleProps {
   title: string;

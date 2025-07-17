@@ -1,3 +1,4 @@
+// Detailed view for a selected movie
 import React, { useEffect, useRef, useState } from "react";
 import { MovieDetails } from "../api/utopia";
 import Title from "./Title";

@@ -1,4 +1,4 @@
-// Définitions des interfaces pour la structure des données
+// Type definitions for RSS scraping results
 export interface Movie {
   title: string;
   link: string;

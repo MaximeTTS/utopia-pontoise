@@ -1,3 +1,4 @@
+// Helper functions to call the backend API
 import axios from "axios";
 import { fetchWithCache } from "../utils/cacheHelper";
 export interface Movie {

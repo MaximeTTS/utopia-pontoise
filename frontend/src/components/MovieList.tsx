@@ -1,4 +1,4 @@
-// frontend/src/components/MovieList.tsx
+// Fetches weekly movies and displays a list
 import React, { useEffect, useState } from "react";
 import { fetchWeekMovies, fetchMovieDetails, MovieDetails } from "../api/utopia";
 import MovieCard from "./MovieCard";

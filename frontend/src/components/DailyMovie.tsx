@@ -1,4 +1,4 @@
-// frontend/src/components/DailyMovieCard.tsx
+// Fetches and displays the featured movie of the day
 import React, { useEffect, useState } from "react";
 import { fetchDailyMovie, DailyMovie } from "../api/utopia";
 import Title from "./Title";

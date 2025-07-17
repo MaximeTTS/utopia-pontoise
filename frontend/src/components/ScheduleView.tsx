@@ -1,3 +1,4 @@
+// Displays link to the weekly program PDF
 "use client";
 
 import React, { useEffect, useState } from "react";

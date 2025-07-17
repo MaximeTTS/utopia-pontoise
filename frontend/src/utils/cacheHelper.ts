@@ -1,3 +1,4 @@
+// Simple in-memory cache that resets each day
 function getNextMidnightTimestamp(): number {
   const now = new Date();
   // On crée une date à 00:00:00 du jour suivant
