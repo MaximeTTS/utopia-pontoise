@@ -23,11 +23,8 @@ export interface DailyMovie {
   imageUrl: string;
 }
 
-// Vérification de la clé YouTube
+// Clé YouTube (optionnelle, permet le fallback bande-annonce)
 const YT_API_KEY = process.env.YOUTUBE_API_KEY;
-if (!YT_API_KEY) {
-  throw new Error("La variable YOUTUBE_API_KEY n'est pas définie dans .env");
-}
 
 const HEADERS = { headers: { "User-Agent": "Mozilla/5.0", "Accept-Language": "fr" } };
 const WEEK_URL = "https://www.cinemas-utopia.org/saintouen/index.php?mode=prochains";
@@ -72,7 +69,7 @@ export async function getMovieDetails(url: string): Promise<MovieDetails> {
   let videoSrc = $("video source").attr("src") || $("iframe").attr("src") || null;
 
   // Fallback YouTube si pas de trailer trouvé
-  if (!videoSrc) {
+  if (!videoSrc && YT_API_KEY) {
     try {
       const ytRes = await axios.get(YT_API_URL, {
         params: {
