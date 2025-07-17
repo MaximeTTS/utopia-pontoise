@@ -37,7 +37,13 @@ const YT_API_URL = "https://www.googleapis.com/youtube/v3/search";
 export async function getWeekMovies(): Promise<Movie[]> {
   const { data } = await axios.get(WEEK_URL, HEADERS);
   const $ = load(data);
-  return $("h4:contains('LES FILMS PROGRAMMÉS')")
+  const header = $("h4")
+    .filter((_, el) => {
+      const text = $(el).text().trim().toUpperCase();
+      return text.includes("FILMS PROGRAMM") || text.includes("FILMS DE LA SEMAINE");
+    })
+    .first();
+  return header
     .next("ul")
     .find("li a")
     .toArray()
