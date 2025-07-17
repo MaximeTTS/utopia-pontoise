@@ -1,0 +1,12 @@
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { getWeeklySchedule } from "../backend/src/fetchSchedule";
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  try {
+    const schedule = await getWeeklySchedule();
+    res.status(200).json(schedule);
+  } catch (err: any) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur lors du scraping des horaires hebdomadaires." });
+  }
+}
