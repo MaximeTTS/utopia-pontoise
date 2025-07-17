@@ -1,16 +1,15 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getMovieDetails } from "../backend/src/fetchScrape";
+import { getWeeklySchedule } from "../backend/src/fetchSchedule";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const queryUrl = Array.isArray(req.query.url) ? req.query.url[0] : req.query.url;
-  if (!queryUrl) {
-    return res.status(400).json({ error: "Paramètre url manquant." });
-  }
   try {
-    const details = await getMovieDetails(decodeURIComponent(queryUrl));
-    res.status(200).json(details);
+    const schedule = await getWeeklySchedule();
+    if (!schedule) {
+      return res.status(404).json({ error: "Aucun horaire trouvé." });
+    }
+    res.status(200).json(schedule);
   } catch (err: any) {
     console.error(err);
-    res.status(500).json({ error: "Erreur lors du scraping du détail du film." });
+    res.status(500).json({ error: "Erreur lors du scraping des horaires hebdomadaires." });
   }
 }
