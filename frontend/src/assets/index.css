@@ -32,7 +32,7 @@ code {
   @apply fixed inset-0 flex pointer-events-none z-20;
 }
 .stairs .transition-container > div {
-  @apply relative flex-1 bg-red-600;
+  @apply relative flex-1 bg-[#29273B];
 }
 .stairs .transition-background {
   @apply fixed inset-0 bg-black pointer-events-none z-10;

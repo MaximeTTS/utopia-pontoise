@@ -49,12 +49,12 @@ export default function MovieDetailEditorial({ details }: Props) {
     .filter(Boolean);
 
   return (
-    <div className="max-w-6xl mx-auto px-2 ">
+    <div className="max-w-6xl mx-auto px-2 min-h-screen">
       {/* En-tête avec titre */}
       <div className="bg-[#03001e]">
-        <div className="mx-auto pb-16 pt-8">
+        <div className="mx-auto pb-16 pt-6">
           <div className="max-w-6xl">
-            <h1 className="text-[32px] xs:text-[38px] md:text-[48px] lg:text-[72px] text-white mb-4 p-4">
+            <h1 className="text-[32px] xs:text-[38px] md:text-[48px] lg:text-[72px] text-white mb-[-10px] p-4">
               {details.title}
             </h1>
             <div className="w-48 h-px bg-white ml-4" />
@@ -66,14 +66,14 @@ export default function MovieDetailEditorial({ details }: Props) {
       <div className="mx-auto py-4 mb-16 rounded-lg bg-[#29273B]">
         <div className="grid lg:grid-cols-12">
           {/* Texte */}
-          <div className="lg:col-span-8 space-y-8">
+          <div className="lg:col-span-8 space-y-4">
             {paragraphs.map((para, idx) => (
               <p
                 key={idx}
                 className={
                   idx === 0
-                    ? "text-lg leading-relaxed text-white font-light first-letter:text-6xl first-letter:font-thin first-letter:float-left first-letter:mr-2 first-letter:-mt-1 first-letter:text-red-600 p-4"
-                    : "text-lg leading-relaxed text-white font-light p-4"
+                    ? "text-lg leading-relaxed text-white font-light first-letter:text-6xl first-letter:font-thin first-letter:float-left first-letter:mr-2 first-letter:-mt-1 first-letter:text-red-600 px-4"
+                    : "text-lg leading-relaxed text-white font-light px-4"
                 }
               >
                 {para}
