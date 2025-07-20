@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
 const Header: FC = () => (
-  <header className="bg-[#29273B] shadow-md rounded-lg mt-4">
+  <header className="bg-[#29273B] shadow-md rounded-lg mt-2 md:mt-6">
     <div className="px-4 py-4 flex flex-wrap justify-center md:justify-between items-center">
       {/* Logo / Titre */}
       <Link to="/" className="text-white text-[24px] font-bold mb-2 md:mb-0">

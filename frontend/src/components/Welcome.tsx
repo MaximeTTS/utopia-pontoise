@@ -6,7 +6,7 @@ export default function Welcome() {
   return (
     <div>
       {/* En-tête centré avec nouveau style */}
-      <div className=" py-6 sm:py-8 md:py-10 lg:py-12">
+      <div className="py-2 md:py-6">
         <div className="p-8 bg-[#29273B] rounded-lg">
           <Title title="UTOPIA PONTOISE" />
           <div className="text-left mt-6 text-base sm:text-lg text-white font-light">

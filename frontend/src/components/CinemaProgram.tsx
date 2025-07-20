@@ -11,13 +11,13 @@ export default function CinemaProgram() {
     <div className="min-h-scree">
       <div className="">
         {/* 01 – Programme du jour */}
-        <div className=" md:mb-12 px-4 md:px-8 py-8 bg-[#29273B] rounded-lg">
+        <div className="px-4 md:px-8 py-8 bg-[#29273B] rounded-lg">
           <DailySchedule />
           <ScheduleView />
         </div>
 
         {/* 02 – Nos Tarifs */}
-        <div id="Tarifs" className="pt-8 pb-4 mb-12 bg-[#29273B] rounded-lg mt-12">
+        <div id="Tarifs" className="pt-8 pb-4 my-2 md:my-6 bg-[#29273B] rounded-lg">
           <Title title="NOS TARIFS" />
 
           <div className="p-4 md:p-8 pt-0 space-y-6 sm:space-y-3 md:space-y-4">

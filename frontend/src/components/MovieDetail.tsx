@@ -53,7 +53,7 @@ export default function MovieDetailEditorial({ details }: Props) {
     <div className="max-w-6xl mx-auto px-2 min-h-screen">
       {/* En-tête avec titre */}
       <div className="bg-[#03001e]">
-        <div className="mx-auto pb-16 pt-6">
+        <div className="mx-auto pb-8 pt-2 md:pb-14 md:pt-6">
           <div className="max-w-6xl">
             <h1 className="text-[32px] xs:text-[38px] md:text-[48px] lg:text-[72px] text-white mb-[-10px] p-4">
               {details.title}
@@ -64,7 +64,7 @@ export default function MovieDetailEditorial({ details }: Props) {
       </div>
 
       {/* Contenu éditorial */}
-      <div className="mx-auto py-4 mb-16 rounded-lg bg-[#29273B]">
+      <div className="mx-auto py-4 mb-2 md:mb-6 rounded-lg bg-[#29273B]">
         <div className="grid lg:grid-cols-12">
           {/* Texte */}
           <div className="lg:col-span-8 space-y-4">

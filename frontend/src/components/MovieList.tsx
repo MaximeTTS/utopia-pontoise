@@ -14,7 +14,7 @@ export default function MovieList() {
   }, []);
 
   return (
-    <div className="py-12" id="film">
+    <div className="py-2 md:py-6" id="film">
       <Title title="FILMS DE LA SEMAINE" />
       <div className=" max-w-6xl mx-auto grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-2">
         {movies.map((m) => (
