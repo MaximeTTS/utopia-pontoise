@@ -1,50 +1,60 @@
-// Scrape the PDF or image with today's schedule
-import axios from "axios";
-import * as cheerio from "cheerio";
+// Scrape the screenings listed on the homepage schedule
+import { loadPage, absoluteUrl, cleanText } from "./client";
 
-export interface DailySchedule {
-  url: string;
-  resourceType: "image" | "pdf";
+export interface Screening {
+  title: string;
+  time: string;
+  room: string;
+  link: string;
 }
 
-const BASE = "http://www.cinemas-utopia.org/U-blog/saintouen/public/horaires/";
+export interface DailySchedule {
+  day: string;
+  screenings: Screening[];
+}
 
-const HEADERS = { "User-Agent": "Mozilla/5.0", "Accept-Language": "fr" };
+// Libellé du jour tel qu'affiché par le site, ex. "samedi 29 août"
+function todayLabel(): string {
+  return new Intl.DateTimeFormat("fr-FR", {
+    timeZone: "Europe/Paris",
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  }).format(new Date());
+}
 
-/* Test HEAD : vrai si 200 */
-const exists = async (url: string) => {
-  try {
-    return (await axios.head(url, { timeout: 3000 })).status === 200;
-  } catch {
-    return false;
-  }
-};
+// Toutes les séances annoncées, groupées par jour dans l'ordre du site
+async function getScreeningsByDay(): Promise<Map<string, Screening[]>> {
+  const $ = await loadPage("/?mode=prochains");
+  const byDay = new Map<string, Screening[]>();
 
-/* 1) tente <jour>.jpg puis .pdf */
-const tryToday = async (): Promise<string | null> => {
-  const day = new Date().toLocaleString("en-US", { timeZone: "Europe/Paris", day: "numeric" });
-  for (const ext of ["jpg", "pdf"]) {
-    const url = `${BASE}${day}.${ext}`;
-    if (await exists(url)) return url;
-  }
-  return null;
-};
+  $(".item_liste_horaire").each((_, el) => {
+    const item = $(el);
+    const day = cleanText(item.find(".jour_seance").text());
+    const href = item.find("a").attr("href") || item.closest("a").attr("href");
+    // Les séances de la page d'accueil portent toutes un jour et un lien de fiche
+    if (!day || !href) return;
 
-/* 2) sinon prend le fichier le + récent listé dans le répertoire */
-const latestInDir = async (): Promise<string | null> => {
-  const { data: html } = await axios.get(BASE, { timeout: 4000 });
-  const $ = cheerio.load(html);
+    const screening: Screening = {
+      title: cleanText(item.find("b").text()),
+      time: cleanText(item.find(".heure_seance").text()),
+      room: cleanText(item.find(".nom_salle").text()),
+      link: absoluteUrl(href),
+    };
+    byDay.set(day, [...(byDay.get(day) || []), screening]);
+  });
 
-  const files = $("a[href$='.jpg'], a[href$='.pdf']")
-    .map((_, el) => $(el).attr("href")!) // ← plus d’erreur TS
-    .get()
-    .filter((name) => /^\d+\.(jpg|pdf)$/i.test(name))
-    .sort((a, b) => parseInt(b) - parseInt(a)); // 30 → 1
+  return byDay;
+}
 
-  return files[0] ? BASE + files[0] : null;
-};
+// Séances du jour, ou du prochain jour programmé si la journée est terminée
+export async function getDailySchedule(): Promise<DailySchedule | null> {
+  const byDay = await getScreeningsByDay();
+  if (byDay.size === 0) return null;
 
-export const getDailySchedule = async (): Promise<DailySchedule | null> => {
-  const url = (await tryToday()) || (await latestInDir());
-  return url ? { url, resourceType: url.endsWith(".pdf") ? "pdf" : "image" } : null;
-};
+  const label = todayLabel();
+  const today = [...byDay.keys()].find((day) => day.toLowerCase() === label.toLowerCase());
+  const day = today ?? [...byDay.keys()][0];
+
+  return { day, screenings: byDay.get(day) || [] };
+}

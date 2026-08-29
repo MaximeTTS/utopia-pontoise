@@ -1,23 +1,27 @@
 // Framer Motion animation variants used across pages
 import { Variants } from "framer-motion";
 
+const EASE: [number, number, number, number] = [0.215, 0.61, 0.355, 1];
+const DURATION = 0.68;
+const STAGGER = 0.075;
+
 export const expand: Variants = {
   initial: { top: 0 },
   enter: (i: number) => ({
     top: "100vh",
     transition: {
-      duration: 0.4,
-      delay: 0.05 * i,
-      ease: [0.215, 0.61, 0.355, 1],
+      duration: DURATION,
+      delay: STAGGER * i,
+      ease: EASE,
     },
     transitionEnd: { height: "0", top: "0" },
   }),
   exit: (i: number) => ({
     height: "100vh",
     transition: {
-      duration: 0.4,
-      delay: 0.05 * i,
-      ease: [0.215, 0.61, 0.355, 1],
+      duration: DURATION,
+      delay: STAGGER * i,
+      ease: EASE,
     },
   }),
 };

@@ -1,28 +1,24 @@
-// Scrape the "weekly schedule" section and return the PDF link
-import axios from "axios";
-import * as cheerio from "cheerio";
+// Scrape the weekly gazette and return its label and PDF link
+import { loadPage, cleanText } from "./client";
 
-const WEEK_URL = "https://www.cinemas-utopia.org/saintouen/index.php?mode=prochains";
-const HEADERS = { "User-Agent": "Mozilla/5.0", "Accept-Language": "fr" };
+export interface WeeklySchedule {
+  label: string;
+  pdfUrl: string;
+}
 
-// Scrape la section "LES HORAIRES (format PDF)" et retourne le label et l'URL du PDF.
-export async function getWeeklySchedule(): Promise<{ label: string; pdfUrl: string } | null> {
-  const { data: html } = await axios.get(WEEK_URL, { headers: HEADERS });
-  const $ = cheerio.load(html);
+// Récupère la gazette de la semaine en cours et son intitulé
+export async function getWeeklySchedule(): Promise<WeeklySchedule | null> {
+  const $ = await loadPage("/?mode=prochains");
 
-  // Cibler le titre h4 commençant par "LES HORAIRES"
-  const header = $("h4")
-    .filter((_, el) => $(el).text().trim().toUpperCase().startsWith("LES HORAIRES"))
+  // La gazette est le premier PDF de la page, sous le bouton "Télécharger la gazette"
+  const pdfUrl = $("a[href$='.pdf']").first().attr("href");
+  if (!pdfUrl) return null;
+
+  // Le site titre chaque semaine "Semaine du 26 août au 01 septembre"
+  const heading = $("h3")
+    .filter((_, el) => cleanText($(el).text()).toLowerCase().startsWith("semaine du"))
     .first();
-  if (!header.length) return null;
+  const label = cleanText(heading.text()) || "en cours";
 
-  // Récupérer le premier lien dans la liste qui suit
-  const linkEl = header.nextAll("ul").first().find("li a").first();
-  const label = linkEl.text().trim();
-  const href = linkEl.attr("href");
-  if (!href) return null;
-
-  // Construire URL absolu vers le PDF
-  const pdfUrl = new URL(href, WEEK_URL).toString();
   return { label, pdfUrl };
 }

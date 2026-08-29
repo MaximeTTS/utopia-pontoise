@@ -1,11 +1,7 @@
 // Express server exposing scraping endpoints
 
 import express from "express";
-import {
-  getWeekMovies,
-  getMovieDetails,
-  fetchDailyMovie,
-} from "./scrapers/fetchScrape";
+import { getWeekMovies, getMovieDetails, fetchDailyMovie } from "./scrapers/fetchScrape";
 import { getWeeklySchedule } from "./scrapers/fetchSchedule";
 import { getDailySchedule } from "./scrapers/fetchDailySchedule";
 
@@ -13,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Route principale : renvoie la programmation hebdomadaire
-app.get("/api/semaine", async (req, res) => {
+app.get("/api/semaine", async (_req, res) => {
   try {
     const movies = await getWeekMovies();
     res.json(movies);
@@ -35,47 +31,52 @@ app.get("/api/film", async (req, res) => {
     res.json(details);
   } catch (err) {
     console.error("Erreur sur /api/film :", err);
+    res.status(500).json({ error: "Impossible de récupérer les détails du film." });
   }
 });
 
-// horaires PDF de la semaine
-app.get("/api/horaires", (req, res) => {
-  getWeeklySchedule()
-    .then((schedule) => {
-      if (!schedule) {
-        return res.status(404).json({ error: "Section horaires introuvable" });
-      }
-      res.json(schedule);
-    })
-    .catch((err) => {
-      console.error("Erreur sur /api/horaires :", err);
-      res.status(500).json({ error: "Impossible de récupérer les horaires de la semaine." });
-    });
+// Gazette PDF de la semaine
+app.get("/api/horaires", async (_req, res) => {
+  try {
+    const schedule = await getWeeklySchedule();
+    if (!schedule) {
+      res.status(404).json({ error: "Gazette de la semaine introuvable." });
+      return;
+    }
+    res.json(schedule);
+  } catch (err) {
+    console.error("Erreur sur /api/horaires :", err);
+    res.status(500).json({ error: "Impossible de récupérer les horaires de la semaine." });
+  }
 });
 
-// Route pour le programme PDF/JPG du jour
-app.get("/api/horaires/aujourdhui", (_req, res) => {
-  getDailySchedule()
-    .then((meta) => {
-      if (!meta) {
-        return res.status(404).json({ error: "Programme du jour introuvable." });
-      }
-      res.json(meta);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).json({ error: "Scraping KO." });
-    });
+// Route pour les séances du jour
+app.get("/api/horaires/aujourdhui", async (_req, res) => {
+  try {
+    const schedule = await getDailySchedule();
+    if (!schedule) {
+      res.status(404).json({ error: "Programme du jour introuvable." });
+      return;
+    }
+    res.json(schedule);
+  } catch (err) {
+    console.error("Erreur sur /api/horaires/aujourdhui :", err);
+    res.status(500).json({ error: "Impossible de récupérer le programme du jour." });
+  }
 });
 
 // Route pour le film du jour
 app.get("/api/film-du-jour", async (_req, res) => {
   try {
     const today = await fetchDailyMovie();
+    if (!today) {
+      res.status(404).json({ error: "Aucun film programmé aujourd'hui." });
+      return;
+    }
     res.json(today);
   } catch (err) {
-    console.error("Erreur fetchDailyMovie:", err);
-    res.status(500).json({ error: "Impossible de récupérer le film du jour" });
+    console.error("Erreur sur /api/film-du-jour :", err);
+    res.status(500).json({ error: "Impossible de récupérer le film du jour." });
   }
 });
 

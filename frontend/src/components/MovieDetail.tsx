@@ -1,127 +1,155 @@
 // Detailed view for a selected movie
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { MovieDetails } from "../api/utopia";
-import Title from "./Title";
+import { groupByDay } from "../utils/schedule";
+import Eyebrow from "./Eyebrow";
+import InfoField from "./InfoField";
+import PosterFrame from "./PosterFrame";
+import SectionTitle from "./SectionTitle";
+import Tag from "./Tag";
 
-interface Props {
+interface MovieDetailProps {
   details: MovieDetails;
 }
 
 const isYouTubeUrl = (url: string) => url.startsWith("https://www.youtube.com/embed/") || url.includes("youtu.be/");
 
-export default function MovieDetailEditorial({ details }: Props) {
-  const parentRef = useRef<HTMLDivElement>(null);
-  const posterRef = useRef<HTMLDivElement>(null);
-
-  const [posterStyle, setPosterStyle] = useState<React.CSSProperties>({});
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const parent = parentRef.current;
-      const poster = posterRef.current;
-      if (!parent || !poster) {
-        return setPosterStyle({});
-      }
-
-      const { top } = parent.getBoundingClientRect();
-      const maxY = parent.offsetHeight - poster.offsetHeight;
-      if (maxY <= 0) {
-        return setPosterStyle({});
-      }
-
-      const shift = Math.min(Math.max(80 - top, 0), maxY);
-      setPosterStyle({ transform: `translateY(${shift}px)` });
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleScroll);
-    handleScroll();
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-    };
-  }, [details]);
-
-  // Nettoyage et découpe des paragraphes
-  const paragraphs = details.description
-    .replace(/<[^>]+>/g, "")
-    .split("\n\n")
-    .map((p) => p.trim())
-    .filter(Boolean);
+export default function MovieDetail({ details }: MovieDetailProps) {
+  const { info } = details;
+  const badges = [info.version, info.duration, [info.country, info.year].filter(Boolean).join(" · "), info.genre];
+  const paragraphs = details.description.split("\n\n").filter(Boolean);
+  const days = groupByDay(details.showtimes);
+  const [next, ...rest] = days;
 
   return (
-    <div className="max-w-6xl mx-auto px-2 min-h-screen">
-      {/* En-tête avec titre */}
-      <div className="bg-[#03001e]">
-        <div className="mx-auto pb-8 pt-2 md:pb-14 md:pt-6">
-          <div className="max-w-6xl">
-            <h1 className="text-[32px] xs:text-[38px] md:text-[48px] lg:text-[72px] text-white mb-[-10px] p-4">
-              {details.title}
-            </h1>
-            <div className="w-48 h-px bg-white ml-4" />
+    <article>
+      {/* À l'affiche : même agencement que le film du jour sur l'accueil */}
+      <div className="grid grid-cols-1 lg:grid-cols-[480px_1fr] border-b border-ink/10">
+        <div className="pl-0 pr-6 lg:pr-12 py-6 flex flex-col gap-3.5">
+          <div className="max-w-[280px] sm:max-w-[420px] lg:max-w-none mx-auto w-full">
+            <PosterFrame title={details.title} image={details.image} priority />
           </div>
-        </div>
-      </div>
-
-      {/* Contenu éditorial */}
-      <div className="mx-auto py-4 mb-2 md:mb-6 rounded-lg bg-[#29273B]">
-        <div className="grid lg:grid-cols-12">
-          {/* Texte */}
-          <div className="lg:col-span-8 space-y-4">
-            {paragraphs.map((para, idx) => (
-              <p
-                key={idx}
-                className={
-                  idx === 0
-                    ? "text-lg leading-relaxed text-white font-light first-letter:text-6xl first-letter:font-thin first-letter:float-left first-letter:mr-2 first-letter:-mt-1 first-letter:text-red-600 px-4"
-                    : "text-lg leading-relaxed text-white font-light px-4"
-                }
-              >
-                {para}
-              </p>
-            ))}
-          </div>
-
-          {/* Affiche du film animée */}
-          {details.image && (
-            <div ref={parentRef} className="lg:col-span-4 lg:pr-4 pr-0 my-4">
-              <div ref={posterRef} style={posterStyle} className="flex justify-center pt-4 p-4 lg:p-0">
-                <div className="p-8 w-full max-w-[350px] border border-zinc-200 shadow-sm bg-[#29273B]">
-                  <img src={details.image} alt={details.title} className="w-full h-auto object-cover max-h-[700px]" />
-                </div>
-              </div>
+          {next && (
+            <div className="flex flex-col gap-1">
+              <Eyebrow size="mini" className="tracking-[0.2em]">
+                Prochaine séance
+              </Eyebrow>
+              <span className="text-note font-medium">{next.day}</span>
             </div>
           )}
         </div>
 
-        {/* Bande-annonce avec l'api youtube si pas dispo backend */}
-        {details.trailer && (
-          <div className="m-4 mt-16 pt-16 border-t border-white">
-            <div className="max-w-4xl mx-auto text-center">
-              <Title title="BANDE-ANNONCE" />
-              <div className="border border-zinc-200 shadow-sm">
-                <div className="relative w-full h-0 pb-[56.25%]">
-                  {isYouTubeUrl(details.trailer) ? (
-                    <iframe
-                      src={details.trailer}
-                      title={`Bande-annonce de ${details.title}`}
-                      className="absolute top-0 left-0 w-full h-full rounded"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <video
-                      controls
-                      src={details.trailer}
-                      className="absolute top-0 left-0 w-full h-full object-cover rounded"
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
+        <div className="px-5 sm:px-8 wide:px-0 py-[48px] md:py-[62px] flex flex-col gap-6">
+          <h1 className="font-archivo text-[48px] sm:text-[62px] leading-[0.9] tracking-[-0.03em] uppercase">
+            {details.title}
+          </h1>
+
+          <div className="grid grid-cols-[auto_1fr] gap-x-[22px] gap-y-1 text-note leading-relaxed">
+            <InfoField label="Réalisation" value={info.director} />
+            <InfoField label="Casting" value={info.cast} />
+            <InfoField label="Scénario" value={info.screenplay} />
+            <InfoField label="Sortie" value={info.release} />
           </div>
-        )}
+
+          {badges.filter(Boolean).length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {badges.filter(Boolean).map((badge) => (
+                <Tag key={badge} variant="outline">
+                  {badge}
+                </Tag>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+
+      {/* Synopsis */}
+      {paragraphs.length > 0 && (
+        <section className="px-5 sm:px-8 wide:px-0 py-[77px] border-b border-ink/10">
+          <SectionTitle title="Synopsis" className="mb-8" />
+          <div className="flex flex-col gap-4">
+            {paragraphs.map((para, i) => (
+              <p key={i} className="text-[18px] leading-relaxed">
+                {para}
+              </p>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Bande-annonce hébergée par Utopia, sinon repli YouTube */}
+      {details.trailer && (
+        <section className="px-5 sm:px-8 wide:px-0 py-[77px] border-b border-ink/10">
+          <SectionTitle title="Bande-annonce" className="mb-8" />
+          <div className="relative w-full h-0 pb-[56.25%]">
+            {isYouTubeUrl(details.trailer) ? (
+              <iframe
+                src={details.trailer}
+                title={`Bande-annonce de ${details.title}`}
+                className="absolute top-0 left-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video
+                controls
+                poster={details.image || undefined}
+                src={details.trailer}
+                className="absolute top-0 left-0 w-full h-full object-cover"
+              />
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Séances : la prochaine mise en avant, les suivantes une ligne par jour */}
+      {days.length > 0 && (
+        <section className="px-5 sm:px-8 wide:px-0 py-[77px]">
+          <SectionTitle
+            title="Séances"
+            aside={
+              <Tag variant="ink" className="py-[8px] text-[13px]">
+                {details.showtimes.length} séances · {days.length} jours
+              </Tag>
+            }
+            className="mb-8"
+          />
+
+          {/* Même traitement que le film à l'affiche du programme du jour */}
+          <div className="flex flex-wrap items-center justify-between gap-4 px-6 py-5 bg-ink text-cream">
+            <span className="font-archivo text-[26px] tracking-[-0.01em]">{next.day}</span>
+            <span className="flex flex-wrap gap-2">
+              {next.times.map((time, idx) => (
+                <Tag key={`${time}-${idx}`} className="py-1.5 text-note">
+                  {time}
+                </Tag>
+              ))}
+            </span>
+          </div>
+
+          {rest.length > 0 && (
+            <div className="flex flex-col mt-6">
+              {rest.map((day, i) => (
+                <div
+                  key={day.day}
+                  className={`flex items-center justify-between gap-6 py-3.5 ${
+                    i === rest.length - 1 ? "" : "border-b border-ink/[0.14]"
+                  }`}
+                >
+                  <span className="text-note font-medium">{day.day}</span>
+                  <span className="flex flex-wrap justify-end gap-2">
+                    {day.times.map((time, idx) => (
+                      <Tag key={`${time}-${idx}`} className="py-1.5 text-note">
+                        {time}
+                      </Tag>
+                    ))}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
+    </article>
   );
 }

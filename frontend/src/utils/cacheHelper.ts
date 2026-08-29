@@ -1,4 +1,8 @@
 // Simple in-memory cache that resets each day
+// À incrémenter dès que le format renvoyé par l'API change, sinon les visiteurs
+// qui reviennent gardent l'ancienne forme en localStorage jusqu'à minuit
+const CACHE_VERSION = "v2";
+
 function getNextMidnightTimestamp(): number {
   const now = new Date();
   // On crée une date à 00:00:00 du jour suivant
@@ -23,8 +27,10 @@ const memoryCache: Record<string, CacheEntry<any>> = {};
  * @param fetcher Fonction async retournant Promise<T>
  * @returns Promise<T>
  */
-export async function fetchWithCache<T>(cacheKey: string, fetcher: () => Promise<T>): Promise<T> {
+export async function fetchWithCache<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
   const now = Date.now();
+  // La version fait partie de la clé : un ancien format ne sera jamais relu
+  const cacheKey = `${CACHE_VERSION}:${key}`;
 
   // 1️⃣ Vérification du cache en mémoire
   const memEntry = memoryCache[cacheKey] as CacheEntry<T> | undefined;

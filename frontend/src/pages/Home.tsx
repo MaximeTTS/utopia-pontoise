@@ -1,28 +1,33 @@
 // Main landing page assembling all sections
 
 import React from "react";
-import MovieList from "../components/MovieList";
-import CinemaProgram from "../components/CinemaProgram";
+import DailyScheduleView from "../components/DailySchedule";
+import Hero from "../components/Hero";
 import Location from "../components/Location";
-import DailyMovieCard from "../components/DailyMovie";
-import Welcome from "../components/Welcome";
+import MovieList from "../components/MovieList";
+import PracticalInfo from "../components/PracticalInfo";
+import Tariffs from "../components/Tariffs";
 
 export default function Home() {
   return (
-    <div className="max-w-6xl mx-auto px-2">
-      <Welcome />
+    <>
+      {/* Film du jour et mot d'accueil */}
+      <Hero />
 
-      {/* Localisation */}
-      <CinemaProgram />
+      {/* Séances du jour */}
+      <DailyScheduleView />
+
+      {/* Tarifs */}
+      <Tariffs />
 
       {/* Liste des films */}
       <MovieList />
 
-      {/* Nouveau bloc : film à la une */}
-      <DailyMovieCard />
+      {/* Informations pratiques */}
+      <PracticalInfo />
 
       {/* Localisation */}
       <Location />
-    </div>
+    </>
   );
 }

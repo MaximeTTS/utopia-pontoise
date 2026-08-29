@@ -2,35 +2,34 @@
 "use client";
 
 import React from "react";
-import Title from "./Title";
+import SectionTitle from "./SectionTitle";
+
+const MAP_EMBED = "https://www.google.com/maps/d/u/0/embed?mid=1IEC0xkR8Az6talbLsb0I6m-vTCo&hl=fr&ehbc=2E312F";
+const MAP_VIEWER = "https://www.google.com/maps/d/u/0/viewer?mid=1IEC0xkR8Az6talbLsb0I6m-vTCo&hl=fr";
 
 export default function Location() {
   return (
-    <div id="Localisation" className=" py-2 md:py-6">
-      {/* Carte Google Maps */}
-      <div className="bg-[#29273B] p-3 sm:p-4 md:p-6  rounded-lg ">
-        {/* Titre principal */}
-        <Title title="NOTRE LOCALISATION" />
-        {/* Iframe Google Maps intégré */}
+    <section id="Localisation" className="px-5 sm:px-8 wide:px-0 py-8 lg:py-16 flex flex-col gap-8">
+      <SectionTitle title="Notre localisation" />
+      {/* Iframe Google Maps intégré */}
+      <div className="map-hatch border border-ink/20">
         <iframe
           title="Carte Google Maps Utopia"
-          src="https://www.google.com/maps/d/u/0/embed?mid=1IEC0xkR8Az6talbLsb0I6m-vTCo&hl=fr&ehbc=2E312F"
-          className="w-full h-[400px] sm:h-[600px] rounded-lg shadow border-none"
+          src={MAP_EMBED}
+          className="w-full h-[422px] sm:h-[768px] block border-none"
           allowFullScreen
           loading="lazy"
         />
-        {/* Bouton de redirection alternative */}
-        <div className="text-center mt-6">
-          <a
-            href="https://www.google.com/maps/d/u/0/viewer?mid=1IEC0xkR8Az6talbLsb0I6m-vTCo&hl=fr"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-[#03001e] text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors"
-          >
-            Voir sur Google Maps
-          </a>
-        </div>
       </div>
-    </div>
+      {/* Bouton de redirection alternative */}
+      <a
+        href={MAP_VIEWER}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="link-hover-effect self-center px-6 py-3.5 bg-accent text-white text-mini font-bold uppercase tracking-[0.2em] hover:bg-accent/90 transition-colors"
+      >
+        Voir sur Google Maps
+      </a>
+    </section>
   );
 }

@@ -1,55 +1,37 @@
 // Card showing a movie with link to its detail page
-import { CustomButton } from "./CustomButton";
+import React from "react";
 import { Link } from "react-router-dom";
+import PosterFrame from "./PosterFrame";
+
 interface MovieCardProps {
   title: string;
   link: string;
   image: string | null;
+  meta: string;
 }
 
-export default function MovieCard({ title, link, image }: MovieCardProps) {
-  const detailUrl = `/film?url=${encodeURIComponent(link)}`;
-
+export default function MovieCard({ title, link, image, meta }: MovieCardProps) {
   return (
-    <div className="flex items-center justify-center rounded-lg">
-      <div className="w-full mx-auto">
-        <div className="group relative overflow-hidden rounded-lg w-full h-[350px]">
-          {/* Background image */}
-          {image && (
-            <img
-              src={image}
-              alt={`Affiche de ${title}`}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 group-hover:brightness-50"
-            />
-          )}
+    <Link to={`/film?url=${encodeURIComponent(link)}`} className="group flex flex-col gap-2">
+      <div className="relative overflow-hidden">
+        {/* Affiche qui zoome et s'assombrit au survol */}
+        <div className="transition-transform duration-500 group-hover:scale-105 group-hover:brightness-[0.35]">
+          <PosterFrame title={title} image={image} />
+        </div>
 
-          {/* Superposition dégradée */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-
-          {/* Titre qui disparaît au hover */}
-          <div
-            className="absolute bottom-0 left-0 right-0 p-2 lg:p-4 text-white
-            opacity-100 group-hover:opacity-0 transition-opacity duration-300"
-          >
-            <h3 className="text-[20px] font-bold">{title}</h3>
-          </div>
-
-          {/* Panel qui remonte du bas */}
-          <div
-            className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent
-            p-2 lg:p-2 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
-          >
-            <div className="text-white text-center">
-              <h3 className="text-[20px] font-bold mb-2.5">{title}</h3>
-              <Link to={detailUrl}>
-                <CustomButton className="bg-red-600 hover:bg-red-700 text-[18px] px-6 py-2.5 w-full">
-                  En savoir plus
-                </CustomButton>
-              </Link>
-            </div>
-          </div>
+        {/* Seul le bouton remonte du bas */}
+        <div
+          className="absolute bottom-0 left-0 right-0 p-4 flex justify-center
+          translate-y-full group-hover:translate-y-0 transition-transform duration-500"
+        >
+          <span className="px-5 py-2.5 bg-accent text-white font-archivo text-[12px] uppercase tracking-[0.2em]">
+            En savoir plus
+          </span>
         </div>
       </div>
-    </div>
+
+      <span className="text-[18px] font-bold group-hover:text-accent transition-colors">{title}</span>
+      <span className="text-mini text-muted">{meta || "—"}</span>
+    </Link>
   );
 }
