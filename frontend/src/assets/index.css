@@ -59,6 +59,13 @@ html {
   outline-offset: 3px;
 }
 
+@media (min-width: 1024px) {
+  .text-mini,
+  .text-label {
+    font-size: 20px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

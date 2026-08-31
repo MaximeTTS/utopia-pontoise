@@ -24,7 +24,7 @@ export default function PracticalInfo() {
           <p className="text-note leading-relaxed text-muted">{block.text}</p>
         </div>
       ))}
-      <p className="text-base font-bold">Merci de votre compréhension</p>
+      <p className="text-base lg:text-[20px] font-bold">Merci de votre compréhension</p>
     </section>
   );
 }

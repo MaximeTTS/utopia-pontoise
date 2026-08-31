@@ -71,9 +71,9 @@ export default function Hero() {
 
         {movie && (
           <>
-            <p className="max-w-[58ch] text-[18px] leading-relaxed text-muted">{shortSynopsis(movie.description)}</p>
+            <p className="max-w-[58ch] text-label leading-relaxed text-muted">{shortSynopsis(movie.description)}</p>
 
-            <div className="grid grid-cols-[auto_1fr] gap-x-[22px] gap-y-4 text-lg leading-relaxed">
+            <div className="grid grid-cols-[auto_1fr] gap-x-[22px] gap-y-4 text-lg lg:text-note leading-relaxed">
               <InfoField label="Réalisation" value={movie.info.director} />
               <InfoField label="Casting" value={movie.info.cast} />
               <InfoField label="Scénario" value={movie.info.screenplay} />

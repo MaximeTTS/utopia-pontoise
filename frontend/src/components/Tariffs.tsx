@@ -31,7 +31,7 @@ export default function Tariffs() {
           <TariffCard key={tariff.name} tariff={tariff} />
         ))}
       </div>
-      <p className="mt-4 text-base xs:text-label text-muted">
+      <p className="mt-4 text-base xs:text-label lg:text-[20px] text-muted">
         Les moyens de paiement disponibles : CB, Chèque ou Espèces
       </p>
     </section>

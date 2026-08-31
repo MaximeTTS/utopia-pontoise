@@ -24,13 +24,13 @@ export default function MovieCard({ title, link, image, meta }: MovieCardProps) 
           className="absolute bottom-0 left-0 right-0 p-4 flex justify-center
           translate-y-full group-hover:translate-y-0 transition-transform duration-500"
         >
-          <span className="px-5 py-2.5 bg-accent text-white font-archivo text-[12px] uppercase tracking-[0.2em]">
+          <span className="px-5 py-2.5 bg-accent text-white font-archivo text-[12px] lg:text-[20px] uppercase tracking-[0.2em]">
             En savoir plus
           </span>
         </div>
       </div>
 
-      <span className="text-[18px] font-bold group-hover:text-accent transition-colors">{title}</span>
+      <span className="text-label font-bold group-hover:text-accent transition-colors">{title}</span>
       <span className="text-mini text-muted">{meta || "—"}</span>
     </Link>
   );
