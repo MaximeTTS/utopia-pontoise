@@ -5,16 +5,17 @@ import { fetchMovieDetails, MovieDetails } from "../api/utopia";
 import Eyebrow from "../components/Eyebrow";
 import MovieDetail from "../components/MovieDetail";
 
-// Squelette de la fiche, aux mêmes proportions que le contenu à venir
 function LoadingSkeleton({ title }: { title: string }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[480px_1fr] animate-pulse">
-      <div className="pl-0 pr-6 lg:pr-12 py-6">
-        <div className="max-w-[280px] sm:max-w-[420px] lg:max-w-none mx-auto w-full aspect-[2/3] bg-frame" />
+    <div className="grid grid-cols-1 lg:grid-cols-[480px_1fr] border-b border-ink/10 px-4 lg:px-8 animate-pulse">
+      <div className="lg:pr-8 pt-8 lg:py-16">
+        <div className="lg:max-w-none mx-auto w-full aspect-[2/3] h-[200px] mobileWide:h-[350px] md:h-[550px] lg:h-full bg-frame" />
       </div>
-      <div className="px-5 sm:px-8 wide:px-0 py-[48px] md:py-[62px] flex flex-col gap-5">
-        <Eyebrow className="tracking-[0.3em]">Chargement de la fiche</Eyebrow>
-        <h1 className="font-archivo text-[48px] sm:text-[62px] leading-[0.9] tracking-[-0.03em] uppercase">
+      <div className="wide:px-0 py-8 lg:py-16 flex flex-col gap-6">
+        <Eyebrow size="mini" className="tracking-[0.2em]">
+          À l'affiche
+        </Eyebrow>
+        <h1 className="font-archivo text-[64px] md:text-[102px] leading-[0.9] tracking-[-0.03em] uppercase">
           {title}
         </h1>
         <div className="flex flex-wrap gap-2">

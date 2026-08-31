@@ -23,10 +23,9 @@ export default function MovieDetail({ details }: MovieDetailProps) {
 
   return (
     <article>
-      {/* À l'affiche : même agencement que le film du jour sur l'accueil */}
-      <div className="grid grid-cols-1 lg:grid-cols-[480px_1fr] border-b border-ink/10">
-        <div className="pl-0 pr-6 lg:pr-12 py-6 flex flex-col gap-3.5">
-          <div className="max-w-[280px] sm:max-w-[420px] lg:max-w-none mx-auto w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-[480px_1fr] border-b border-ink/10 px-4 lg:px-8">
+        <div className="lg:pr-8 pt-8 lg:py-16 flex flex-col gap-3.5">
+          <div className="lg:max-w-none mx-auto w-full [&_img]:h-[200px] mobileWide:[&_img]:h-[350px] md:[&_img]:h-[550px] lg:[&_img]:h-full">
             <PosterFrame title={details.title} image={details.image} priority />
           </div>
           {next && (
@@ -39,12 +38,15 @@ export default function MovieDetail({ details }: MovieDetailProps) {
           )}
         </div>
 
-        <div className="px-5 sm:px-8 wide:px-0 py-[48px] md:py-[62px] flex flex-col gap-6">
-          <h1 className="font-archivo text-[48px] sm:text-[62px] leading-[0.9] tracking-[-0.03em] uppercase">
+        <div className="wide:px-0 py-8 lg:py-16 flex flex-col gap-6">
+          <Eyebrow size="mini" className="tracking-[0.2em]">
+            À l'affiche
+          </Eyebrow>
+          <h1 className="font-archivo text-[64px] md:text-[102px] leading-[0.9] tracking-[-0.03em] uppercase">
             {details.title}
           </h1>
 
-          <div className="grid grid-cols-[auto_1fr] gap-x-[22px] gap-y-1 text-note leading-relaxed">
+          <div className="grid grid-cols-[auto_1fr] gap-x-[22px] gap-y-4 text-lg leading-relaxed">
             <InfoField label="Réalisation" value={info.director} />
             <InfoField label="Casting" value={info.cast} />
             <InfoField label="Scénario" value={info.screenplay} />
