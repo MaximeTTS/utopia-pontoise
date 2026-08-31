@@ -24,11 +24,11 @@ const MAPS_URL = "https://www.google.com/maps/d/u/0/viewer?mid=1IEC0xkR8Az6talbL
 // Bandeau de titre encadré de deux filets
 const Banner: FC = () => (
   <div className="flex items-center gap-6">
-    <span className="h-px flex-1 bg-cream/20" />
-    <span className="text-label font-bold uppercase tracking-[0.28em] text-black text-center">
+    <span className="h-px flex-1 bg-ink/15" />
+    <span className="text-label font-bold uppercase tracking-[0.28em] text-ink text-center">
       Cinéma Utopia · Saint-Ouen l'Aumône · près de Pontoise
     </span>
-    <span className="h-px flex-1 bg-cream/20" />
+    <span className="h-px flex-1 bg-ink/15" />
   </div>
 );
 
@@ -42,13 +42,13 @@ const LinkColumn: FC<{ title: string; children: React.ReactNode }> = ({ title, c
   </div>
 );
 
-const linkClass = "link-hover-effect text-[18px] text-black font-medium hover:text-cream transition-colors";
+const linkClass = "link-hover-effect text-label text-ink font-medium hover:text-accent transition-colors";
 
 const Columns: FC = () => (
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
     {/* Le cinéma */}
     <LinkColumn title="Le cinéma">
-      <p className="text-[18px] text-black font-medium leading-relaxed">
+      <p className="text-label text-ink font-medium leading-relaxed">
         Utopia Stella
         <br />1 place Mendès France
         <br />
@@ -64,13 +64,13 @@ const Columns: FC = () => (
 
     {/* Horaires de vente */}
     <LinkColumn title="Horaires">
-      <p className="text-[18px] text-black font-medium leading-relaxed">Ouverture des ventes</p>
-      <p className="text-[18px] text-black font-medium leading-relaxed -mt-2">
+      <p className="text-label text-ink font-medium leading-relaxed">Ouverture des ventes</p>
+      <p className="text-label text-ink font-medium leading-relaxed -mt-2">
         Environ 15 minutes avant l'heure de la séance
       </p>
-      <p className="text-[18px] text-black font-medium leading-relaxed mt-1">Clôture</p>
-      <p className="text-[18px] text-black font-medium leading-relaxed -mt-2">15 minutes après l'heure indiquée</p>
-      <p className="text-[18px] text-black font-medium leading-relaxed">Ni pop-corn, ni téléphone allumé.</p>
+      <p className="text-label text-ink font-medium leading-relaxed mt-1">Clôture</p>
+      <p className="text-label text-ink font-medium leading-relaxed -mt-2">15 minutes après l'heure indiquée</p>
+      <p className="text-label text-ink font-medium leading-relaxed">Ni pop-corn, ni téléphone allumé.</p>
     </LinkColumn>
 
     {/* Navigation interne */}
@@ -90,7 +90,7 @@ const Columns: FC = () => (
 
     {/* Le projet et son auteur */}
     <LinkColumn title="Le projet">
-      <p className="text-[18px] text-black font-medium leading-relaxed">
+      <p className="text-label text-ink font-medium leading-relaxed">
         Site personnel alimenté par mes scripts de scraping du site officiel Utopia.
       </p>
       {PROJET.map((item) => (
@@ -108,14 +108,14 @@ const Gazette: FC = () => (
     <Eyebrow size="label" className="tracking-[0.26em]">
       La gazette
     </Eyebrow>
-    <p className="text-[18px] text-black font-medium leading-relaxed">
+    <p className="text-label text-ink font-medium leading-relaxed">
       Le programme détaillé de la semaine, les avant-premières et les séances spéciales.
     </p>
     <a
       href="https://saintouen.cinemas-utopia.org/gazettes/"
       target="_blank"
       rel="noopener noreferrer"
-      className="link-hover-effect flex items-center gap-3 text-[18px] text-black font-medium hover:text-accent transition-colors"
+      className="link-hover-effect flex items-center gap-3 text-label text-ink font-medium hover:text-accent transition-colors"
     >
       Consulter les gazettes <span aria-hidden>→</span>
     </a>
@@ -124,14 +124,14 @@ const Gazette: FC = () => (
 
 // Lettrage géant, signature du bas de page
 const Wordmark: FC = () => (
-  <h2 className="font-archivo text-[min(10vw,160px)] uppercase text-cream font-medium leading-[0.8] tracking-[-0.03em]">
+  <h2 className="font-archivo text-[min(10vw,160px)] uppercase text-ink font-medium leading-[0.8] tracking-[-0.03em]">
     Utopia <span className="text-accent">Pontoise</span>
   </h2>
 );
 
 // Composant principal du footer
 const ContentFooter: FC = () => (
-  <footer className="bg-[#FFFF] w-full px-5 sm:px-10 lg:px-16 py-10 flex flex-col gap-10">
+  <footer className="bg-cream w-full px-5 sm:px-10 lg:px-16 py-10 flex flex-col gap-10">
     <Banner />
     <Columns />
     <Gazette />
