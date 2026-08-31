@@ -92,25 +92,18 @@ export async function getWeekMovies(): Promise<Movie[]> {
 }
 
 // La fiche d'un film n'expose que sa couverture large : on va chercher l'affiche
-// portrait sur la page "à l'affiche", mémorisée pour ne pas la rescraper à chaque appel
-const POSTER_TTL = 30 * 60 * 1000;
-let posterCache: { expiresAt: number; byId: Map<string, string> } | null = null;
-
+// portrait sur la page "à l'affiche"
 // Les liens du site portent parfois un &src=… : on ne compare que l'identifiant
 function filmId(url: string): string {
   return new URL(url, BASE_URL).searchParams.get("id") || url;
 }
 
 async function getPosters(): Promise<Map<string, string>> {
-  if (posterCache && Date.now() < posterCache.expiresAt) return posterCache.byId;
-
   const movies = await getWeekMovies();
   const byId = new Map<string, string>();
   movies.forEach((movie) => {
     if (movie.image) byId.set(filmId(movie.link), movie.image);
   });
-
-  posterCache = { expiresAt: Date.now() + POSTER_TTL, byId };
   return byId;
 }
 
@@ -155,7 +148,7 @@ async function findTrailerOnYouTube(title: string): Promise<string | null> {
 
 // Détails d'un film avec l'ajout d'un trailer auto via l'api youtube
 export async function getMovieDetails(url: string): Promise<MovieDetails> {
-  const $ = await loadPage(url);
+  const [$, posters] = await Promise.all([loadPage(url), getPosters()]);
   const content = $(".entry-content").first();
 
   const title = cleanText($("h2").first().text());
@@ -188,7 +181,6 @@ export async function getMovieDetails(url: string): Promise<MovieDetails> {
 
   // L'affiche portrait de la page "à l'affiche" prime, la couverture large sert de repli
   const cover = $(".single_film_img").attr("data-back");
-  const posters = await getPosters();
   const image = posters.get(filmId(url)) || (cover ? absoluteUrl(cover) : null);
 
   const hosted = content.find("video source").attr("src");
