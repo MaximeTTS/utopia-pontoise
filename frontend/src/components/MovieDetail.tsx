@@ -14,28 +14,28 @@ interface MovieDetailProps {
 
 const isYouTubeUrl = (url: string) => url.startsWith("https://www.youtube.com/embed/") || url.includes("youtu.be/");
 
+// Le dernier mot du titre passe en rouge, comme sur le Hero
+function splitTitle(title: string) {
+  const words = title.split(" ");
+  const last = words.pop() || "";
+  return { start: words.join(" "), last };
+}
+
 export default function MovieDetail({ details }: MovieDetailProps) {
   const { info } = details;
   const badges = [info.version, info.duration, [info.country, info.year].filter(Boolean).join(" · "), info.genre];
   const paragraphs = details.description.split("\n\n").filter(Boolean);
   const days = groupByDay(details.showtimes);
   const [next, ...rest] = days;
+  const { start, last } = splitTitle(details.title);
 
   return (
     <article>
       <div className="grid grid-cols-1 lg:grid-cols-[480px_1fr] border-b border-ink/10 px-4 lg:px-8">
-        <div className="lg:pr-8 pt-8 lg:py-16 flex flex-col gap-3.5">
+        <div className="lg:pr-8 pt-8 lg:py-16">
           <div className="lg:max-w-none mx-auto w-full [&_img]:h-[200px] mobileWide:[&_img]:h-[350px] md:[&_img]:h-[550px] lg:[&_img]:h-full">
             <PosterFrame title={details.title} image={details.image} priority />
           </div>
-          {next && (
-            <div className="flex flex-col gap-1">
-              <Eyebrow size="mini" className="tracking-[0.2em]">
-                Prochaine séance
-              </Eyebrow>
-              <span className="text-note font-medium">{next.day}</span>
-            </div>
-          )}
         </div>
 
         <div className="wide:px-0 py-8 lg:py-16 flex flex-col gap-6">
@@ -43,10 +43,10 @@ export default function MovieDetail({ details }: MovieDetailProps) {
             À l'affiche
           </Eyebrow>
           <h1 className="font-archivo text-[64px] md:text-[102px] leading-[0.9] tracking-[-0.03em] uppercase">
-            {details.title}
+            {start} <span className="text-accent">{last}</span>
           </h1>
 
-          <div className="grid grid-cols-[auto_1fr] gap-x-[22px] gap-y-4 text-lg leading-relaxed">
+          <div className="grid grid-cols-[auto_1fr] gap-x-[22px] gap-y-4 text-lg lg:text-note leading-relaxed">
             <InfoField label="Réalisation" value={info.director} />
             <InfoField label="Casting" value={info.cast} />
             <InfoField label="Scénario" value={info.screenplay} />
@@ -71,7 +71,7 @@ export default function MovieDetail({ details }: MovieDetailProps) {
           <SectionTitle title="Synopsis" className="mb-8" />
           <div className="flex flex-col gap-4">
             {paragraphs.map((para, i) => (
-              <p key={i} className="text-[18px] leading-relaxed">
+              <p key={i} className="text-label leading-relaxed">
                 {para}
               </p>
             ))}
