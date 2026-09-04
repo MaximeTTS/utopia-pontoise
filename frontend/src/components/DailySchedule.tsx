@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { fetchDailySchedule, fetchWeeklySchedule, DailySchedule, WeeklySchedule } from "../api/utopia";
 import { splitDay } from "../utils/schedule";
 import Eyebrow from "./Eyebrow";
+import FitText from "./FitText";
 import SectionTitle from "./SectionTitle";
 import ShowRow from "./ShowRow";
 import Tag from "./Tag";
@@ -44,14 +45,14 @@ export default function DailyScheduleView() {
         <>
           <Eyebrow className="mt-8 mb-3 tracking-[0.2em]">À l'affiche</Eyebrow>
           <div className="flex flex-wrap items-center justify-between gap-4 px-6 py-5 bg-ink text-cream">
-            <span className="flex flex-wrap items-baseline gap-3.5">
-              <Link to={`/film?url=${encodeURIComponent(featured.link)}`} className="link-hover-effect">
-                <span className="font-archivo text-[26px] tracking-[-0.01em]">{featured.title}</span>
+            <span className="min-w-0 flex-1 flex flex-wrap items-baseline gap-3.5">
+              <Link to={`/film?url=${encodeURIComponent(featured.link)}`} className="link-hover-effect min-w-0">
+                <FitText className="font-archivo text-[26px] tracking-[-0.01em]">{featured.title}</FitText>
               </Link>
             </span>
-            <span className="flex flex-wrap gap-2">
+            <span className="flex flex-wrap gap-2 shrink-0">
               {featured.times.map((time) => (
-                <Tag key={time} className="py-1.5 text-base">
+                <Tag key={time} className="py-1.5 text-base min-w-[5ch] text-center tabular-nums">
                   {time}
                 </Tag>
               ))}

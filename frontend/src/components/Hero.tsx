@@ -59,7 +59,7 @@ export default function Hero() {
         <Eyebrow size="mini" className="tracking-[0.2em]">
           Film du jour
         </Eyebrow>
-        <h1 className="font-archivo text-[64px] md:text-[102px] leading-[0.9] tracking-[-0.03em] uppercase">
+        <h1 className="font-archivo text-[64px] md:text-[102px] leading-[0.9] tracking-[-0.03em] uppercase break-words">
           {movie ? (
             <>
               {start} <span className="text-accent">{last}</span>

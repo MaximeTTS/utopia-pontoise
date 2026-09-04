@@ -12,7 +12,7 @@ interface MovieCardProps {
 
 export default function MovieCard({ title, link, image, meta }: MovieCardProps) {
   return (
-    <Link to={`/film?url=${encodeURIComponent(link)}`} className="group flex flex-col gap-2">
+    <Link to={`/film?url=${encodeURIComponent(link)}`} className="group flex flex-col gap-2 min-w-0">
       <div className="relative overflow-hidden">
         {/* Affiche qui zoome et s'assombrit au survol */}
         <div className="transition-transform duration-500 group-hover:scale-105 group-hover:brightness-[0.35]">
@@ -30,7 +30,7 @@ export default function MovieCard({ title, link, image, meta }: MovieCardProps) 
         </div>
       </div>
 
-      <span className="text-label font-bold group-hover:text-accent transition-colors">{title}</span>
+      <span className="text-label font-bold break-words group-hover:text-accent transition-colors">{title}</span>
       <span className="text-mini text-muted">{meta || "—"}</span>
     </Link>
   );

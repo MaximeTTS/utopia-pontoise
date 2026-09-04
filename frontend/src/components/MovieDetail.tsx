@@ -42,7 +42,7 @@ export default function MovieDetail({ details }: MovieDetailProps) {
           <Eyebrow size="mini" className="tracking-[0.2em]">
             À l'affiche
           </Eyebrow>
-          <h1 className="font-archivo text-[64px] md:text-[102px] leading-[0.9] tracking-[-0.03em] uppercase">
+          <h1 className="font-archivo text-[64px] md:text-[102px] leading-[0.9] tracking-[-0.03em] uppercase break-words">
             {start} <span className="text-accent">{last}</span>
           </h1>
 
@@ -119,10 +119,10 @@ export default function MovieDetail({ details }: MovieDetailProps) {
 
           {/* Même traitement que le film à l'affiche du programme du jour */}
           <div className="flex flex-wrap items-center justify-between gap-4 px-6 py-5 bg-ink text-cream">
-            <span className="font-archivo text-[26px] tracking-[-0.01em]">{next.day}</span>
-            <span className="flex flex-wrap gap-2">
+            <span className="min-w-0 font-archivo text-[26px] tracking-[-0.01em]">{next.day}</span>
+            <span className="flex flex-wrap gap-2 shrink-0">
               {next.times.map((time, idx) => (
-                <Tag key={`${time}-${idx}`} className="py-1.5 text-note">
+                <Tag key={`${time}-${idx}`} className="py-1.5 text-note min-w-[5ch] text-center tabular-nums">
                   {time}
                 </Tag>
               ))}
@@ -138,10 +138,10 @@ export default function MovieDetail({ details }: MovieDetailProps) {
                     i === rest.length - 1 ? "" : "border-b border-ink/[0.14]"
                   }`}
                 >
-                  <span className="text-note font-medium">{day.day}</span>
-                  <span className="flex flex-wrap justify-end gap-2">
+                  <span className="min-w-0 text-note font-medium">{day.day}</span>
+                  <span className="flex flex-wrap justify-end gap-2 shrink-0">
                     {day.times.map((time, idx) => (
-                      <Tag key={`${time}-${idx}`} className="py-1.5 text-note">
+                      <Tag key={`${time}-${idx}`} className="py-1.5 text-note min-w-[5ch] text-center tabular-nums">
                         {time}
                       </Tag>
                     ))}

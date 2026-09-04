@@ -29,7 +29,9 @@ export default function PosterFrame({ title, image, priority = false }: PosterFr
         <span className="h-4 w-1 bg-accent/50" />
         <span className="h-4 w-1 bg-accent" />
       </span>
-      <span className="font-archivo text-[26px] leading-[1.05] uppercase tracking-[-0.02em] text-ink">{title}</span>
+      <span className="font-archivo text-[26px] leading-[1.05] uppercase tracking-[-0.02em] text-ink break-words">
+        {title}
+      </span>
       <span className="text-[11px] lg:text-[20px] font-bold uppercase tracking-[0.2em] text-faint">Séance Utopia</span>
     </div>
   );
